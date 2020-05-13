@@ -14,40 +14,35 @@ return [
             "title" => "Första sidan, börja här.",
         ],
         [
-            "text" => "Redovisning",
-            "url" => "redovisning",
-            "title" => "Redovisningstexter från kursmomenten.",
-        ],
-        [
             "text" => "Om",
             "url" => "om",
             "title" => "Om denna webbplats.",
         ],
+        [
+            "text" => "Docs",
+            "url" => "dokumentation",
+            "title" => "Dokumentation av ramverk och liknande.",
+        ],
         // [
-        //     "text" => "Styleväljare",
-        //     "url" => "style",
-        //     "title" => "Välj stylesheet.",
+        //     "text" => "Gissa numret",
+        //     "url" => "guess-game",
+        //     "title" => "Spela gissningsspel",
+        // ],
+        // [
+        //     "text" => "100",
+        //     "url" => "dice1",
+        //     "title" => "Spela tärningsspel",
         // ],
         [
-            "text" => "Verktyg",
-            "url" => "verktyg",
-            "title" => "Verktyg och möjligheter för utveckling.",
-        ],
-        [
-            "text" => "100",
-            "url" => "dice1",
-            "title" => "Spela tärningsspel",
-        ],
-        [
-            "text" => "Movie",
-            "url" => "movie",
+            "text" => "Produkter",
+            "url" => "product",
             "title" => "Visa Filmer",
         ],
-        [
-            "text" => "Text test",
-            "url" => "mytextfilter",
-            "title" => "My Text Filter Test",
-        ],
+        // [
+        //     "text" => "Anax dev",
+        //     "url" => "dev",
+        //     "title" => "Anax development utilities",
+        // ],
         [
             "text" => "blogg",
             "url" => "content",

@@ -1,6 +1,6 @@
 <?php
 
-namespace Lioo19\Movie;
+namespace Lioo19\Product;
 
 use Anax\Commons\AppInjectableInterface;
 use Anax\Commons\AppInjectableTrait;
@@ -10,7 +10,7 @@ use Anax\Commons\AppInjectableTrait;
 // use Anax\Route\Exception\InternalErrorException;
 
 /**
- * A  controller for the movie functino
+ * A  controller for the product function
  *
  *
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
@@ -18,7 +18,7 @@ use Anax\Commons\AppInjectableTrait;
  * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  *
  */
-class MovieController implements AppInjectableInterface
+class ProductController implements AppInjectableInterface
 {
     use AppInjectableTrait;
 
@@ -41,12 +41,12 @@ class MovieController implements AppInjectableInterface
      */
     public function indexAction()
     {
-        $title = "Movie database | oophp";
+        $title = "Product database ";
         $page = $this->app->page;
         $db = $this->app->db;
 
         $this->connection();
-        $sql = "SELECT * FROM movie;";
+        $sql = "SELECT * FROM product;";
         $res = $db->executeFetchAll($sql);
 
         $data = [
@@ -54,8 +54,8 @@ class MovieController implements AppInjectableInterface
             "check" => null
         ];
 
-        $page->add("movie/header");
-        $page->add("movie/index", $data);
+        $page->add("product/header");
+        $page->add("product/index", $data);
 
         return $page->render([
             "title" => $title,
@@ -63,13 +63,41 @@ class MovieController implements AppInjectableInterface
     }
 
     /**
-     * Searching for movies by year-interval
+     * This is the show all get
+     *
+     * @return object
+     */
+    public function showAllAction()
+    {
+        $title = "Product overview";
+        $page = $this->app->page;
+        $db = $this->app->db;
+
+        $this->connection();
+        $sql = "SELECT * FROM product;";
+        $res = $db->executeFetchAll($sql);
+
+        $data = [
+            "res" => $res,
+            "check" => "check"
+        ];
+
+        $page->add("product/header");
+        $page->add("product/show-all", $data);
+
+        return $page->render([
+            "title" => $title,
+        ]);
+    }
+
+    /**
+     * Searching for products by year-interval
      *
      * @return object
      */
     public function searchYearAction() : object
     {
-        $title = "Sök på årtal| oophp";
+        $title = "Sök på årtal ";
         $request = $this->app->request;
         $response = $this->app->response;
         $page = $this->app->page;
@@ -77,19 +105,19 @@ class MovieController implements AppInjectableInterface
 
         $this->connection();
 
-        $sql = "SELECT * FROM movie;";
+        $sql = "SELECT * FROM product;";
         $year1 = $request->getGet("year1");
         $year2 = $request->getGet("year2");
         $params = null;
 
         if ($year1 && $year2) {
-            $sql = "SELECT * FROM movie WHERE year >= ? AND year <= ?;";
+            $sql = "SELECT * FROM product WHERE year >= ? AND year <= ?;";
             $params = [$year1, $year2];
         } elseif ($year1) {
-            $sql = "SELECT * FROM movie WHERE year >= ?;";
+            $sql = "SELECT * FROM product WHERE year >= ?;";
             $params = [$year1];
         } elseif ($year2) {
-            $sql = "SELECT * FROM movie WHERE year <= ?;";
+            $sql = "SELECT * FROM product WHERE year <= ?;";
             $params = [$year2];
         }
 
@@ -101,16 +129,16 @@ class MovieController implements AppInjectableInterface
         }
 
         $data = [
-            "title" => $title,
+            "name" => $name,
             "check" => "check",
             "year1" => $year1,
             "year2" => $year2,
             "res"   => $res
         ];
 
-        $page->add("movie/header", $data);
-        $page->add("movie/search-year", $data);
-        $page->add("movie/index", $data);
+        $page->add("product/header", $data);
+        $page->add("product/search-year", $data);
+        $page->add("product/index", $data);
 
         return $page->render([
             "title" => $title,
@@ -122,62 +150,61 @@ class MovieController implements AppInjectableInterface
      *
      * @return object
      */
-    public function searchTitleAction() : object
+    public function searchNameAction() : object
     {
-        $title = "Sök på titel | oophp";
+        $title = "Sök på titel ";
         $db = $this->app->db;
         $page = $this->app->page;
         $request = $this->app->request;
 
         $this->connection();
-        $searchTitle = $request->getGet("searchTitle");
+        $searchName = $request->getGet("searchName");
 
         $res = null;
-        if ($searchTitle) {
-            $sql = "SELECT * FROM movie WHERE title LIKE ?;";
-            $res = $db->executeFetchAll($sql, [$searchTitle]);
+        if ($searchName) {
+            $sql = "SELECT * FROM product WHERE name LIKE ?;";
+            $res = $db->executeFetchAll($sql, [$searchName]);
         } else {
-            //set to show all movies if search not done
-            $sql = "SELECT * FROM movie;";
+            //set to show all products if search not done
+            $sql = "SELECT * FROM product;";
             $res = $db->executeFetchAll($sql);
         }
 
         $data = [
             "title"         => $title,
             "check"         => "check",
-            "searchTitle"   => $searchTitle,
+            "searchName"   => $searchName,
             "res"           => $res
         ];
 
-        $page->add("movie/header", $data);
-        $page->add("movie/search-title", $data);
-        $page->add("movie/index", $data);
+        $page->add("product/header", $data);
+        $page->add("product/search-name", $data);
+        $page->add("product/show-all", $data);
 
         return $page->render($data);
     }
 
     /**
-     * Selection of single movie, with links for CRUD
+     * Selection of single product, with links for CRUD
      *
      * @return object
      */
     public function selectAction() : object
     {
-        $title = "Select Movie | oophp";
-        $session = $this->app->session;
+        $title = "Select Product ";
         $page = $this->app->page;
         $db = $this->app->db;
 
         $this->connection();
-        $sql = "SELECT id, title FROM movie;";
-        $movies = $db->executeFetchAll($sql);
+        $sql = "SELECT id, name FROM product;";
+        $products = $db->executeFetchAll($sql);
 
         $data = [
-            "movies" => $movies ?? null
+            "products" => $products ?? null
         ];
 
-        $page->add("movie/header");
-        $page->add("movie/select", $data);
+        $page->add("product/header");
+        $page->add("product/select", $data);
 
         return $page->render([
             "title" => $title
@@ -185,7 +212,7 @@ class MovieController implements AppInjectableInterface
     }
 
     /**
-     * POST movie selection, redirecting to CRUD
+     * POST product selection, redirecting to CRUD
      *
      * @return void
      */
@@ -201,25 +228,25 @@ class MovieController implements AppInjectableInterface
         $add = $request->getPost("add", null);
 
         if ((!$id && $edit) || (!$id && $delete)) {
-            return $response->redirect("movie/select");
+            return $response->redirect("product/select");
         }
 
         if ($delete && is_numeric($id)) {
             $this->deleteActionPost($id);
-            return $response->redirect("movie/select");
+            return $response->redirect("product/select");
         } elseif ($add) {
             $this->addActionPost();
             //fetching last inserted ID
             $id = $db->lastInsertId();
-            return $response->redirect("movie/edit?id=$id");
+            return $response->redirect("product/edit?id=$id");
         } elseif ($edit && is_numeric($id)) {
-            return $response->redirect("movie/edit?id=$id");
+            return $response->redirect("product/edit?id=$id");
         }
     }
 
     /**
-     * Post action to delete movie
-     * Doesnt need a landningpage, just removie?
+     * Post action to delete product
+     * Doesnt need a landningpage, just reproduct?
      *DONE?
      *
      * @return object
@@ -230,15 +257,15 @@ class MovieController implements AppInjectableInterface
         $response = $this->app->response;
         $this->connection();
 
-        $deleteSql = "DELETE FROM movie WHERE id = ?;";
+        $deleteSql = "DELETE FROM product WHERE id = ?;";
         //vill man få en return med alla här? kanske är nice?
         $db->execute($deleteSql, [$id]);
 
-        return $response->redirect("movie/select");
+        return $response->redirect("product/select");
     }
 
     /**
-     * Post action to add movie
+     * Post action to add product
      * DONE?
      *
      * @return object
@@ -250,18 +277,34 @@ class MovieController implements AppInjectableInterface
         $request = $this->app->request;
         $this->connection();
 
-        $title = $request->getPost("title", "Titel");
-        $year = $request->getPost("year", 9999);
+        $name = $request->getPost("name", "Namn");
+        $year = $request->getPost("price");
+        $image = $request->getPost("stock");
+        $image = $request->getPost("image", "img/default.jpg");
+        $image = $request->getPost("image", "img/default.jpg");
+        $image = $request->getPost("image", "img/default.jpg");
         $image = $request->getPost("image", "img/default.jpg");
 
-        $addSql = "INSERT INTO movie (title, year, image) VALUES (?, ?, ?);";
-        $db->execute($addSql, [$title, $year, $image]);
+        // "name",
+        // "price",
+        // "stock",
+        // "brand",
+        // "time",
+        // "players",
+        // "year",
+        // "language",
+        // "description",
+        // "type",
+        // "rating",
+        // "image",
+        $addSql = "INSERT INTO product (name, year, image) VALUES (?, ?, ?);";
+        $db->execute($addSql, [$name, $year, $image]);
 
-        return $response->redirect("movie/select");
+        return $response->redirect("product/select");
     }
 
     /**
-     * Post action to edit movie
+     * Post action to edit product
      *
      * @return object
      */
@@ -274,24 +317,24 @@ class MovieController implements AppInjectableInterface
 
         $id = $request->getPost("id") ?: $request->getGet("id");
         // var_dump($id);
-        $title = $request->getPost("title", "Titel");
+        $name = $request->getPost("name", "Namn");
         $year = $request->getPost("year", 9999);
         $image = $request->getPost("image", "img/default.jpg");
 
-        $editSql = "UPDATE movie SET title = ?, year = ?, image = ? WHERE id = ?;";
-        $db->execute($editSql, [$title, $year, $image, $id]);
+        $editSql = "UPDATE product SET name = ?, year = ?, image = ? WHERE id = ?;";
+        $db->execute($editSql, [$name, $year, $image, $id]);
 
-        return $response->redirect("movie/select");
+        return $response->redirect("product/select");
     }
 
     /**
-     * Get action to edit movie
+     * Get action to edit product
      *
      * @return object
      */
     public function editAction() : object
     {
-        $title = " Edit movie | oophp";
+        $title = " Edit product ";
         $db = $this->app->db;
         $page = $this->app->page;
         $request = $this->app->request;
@@ -300,17 +343,17 @@ class MovieController implements AppInjectableInterface
 
         $id = $request->getGet("id");
 
-        $sql = "SELECT * FROM movie WHERE id = ?;";
-        $chosenMovie = $db->executeFetchAll($sql, [$id]);
-        // var_dump($chosenMovie);
-        $chosenMovie = $chosenMovie[0];
+        $sql = "SELECT * FROM product WHERE id = ?;";
+        $chosenProduct = $db->executeFetchAll($sql, [$id]);
+        // var_dump($chosenProduct);
+        $chosenProduct = $chosenProduct[0];
 
         $data = [
-          "movie" => $chosenMovie ?? null,
+          "product" => $chosenProduct ?? null,
         ];
 
-        $page->add("movie/header");
-        $page->add("movie/edit", $data);
+        $page->add("product/header");
+        $page->add("product/edit", $data);
 
         return $page->render([
           "title" => $title
