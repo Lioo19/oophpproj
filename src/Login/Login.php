@@ -31,8 +31,21 @@ class Login
     */
     public function getAllFromLogin()
     {
-        $sql = "SELECT user, admin FROM login;";
+        $sql = "SELECT * FROM login;";
         $res = $this->db->executeFetchAll($sql);
+
+        return $res;
+    }
+
+    /**
+    * Method that returns everything but password from login table
+    *
+    * @return object
+    */
+    public function getUserFromLogin($user)
+    {
+        $sql = "SELECT username, id FROM login WHERE username = ?;";
+        $res = $this->db->executeFetch($sql, [$user]);
 
         return $res;
     }
@@ -44,16 +57,19 @@ class Login
     */
     public function checkUserLogin($user, $password)
     {
-        $sql = "SELECT password FROM login WHERE user = ?;";
+        $sql = "SELECT password FROM login WHERE username = ?;";
         $res = $this->db->executeFetch($sql, [$user]);
+        $admin = $this->adminLogin($user);
 
-        if ($res === $password) {
-            var_dump($res);
-            // $success = "yes";
-            // $admin = $this->adminLogin($user);
+
+        if ($res->password === $password && $admin->admin === "N") {
+            $success = "yes";
+        } elseif ($res->password === $password) {
+            $success = "admin";
         } else {
             $success = "no";
         }
+        return $success;
     }
 
     /**
@@ -63,9 +79,8 @@ class Login
     */
     public function adminLogin($user)
     {
-        $sql = "SELECT admin FROM login WHERE user = ?;";
+        $sql = "SELECT admin FROM login WHERE username = ?;";
         $res = $this->db->executeFetch($sql, [$user]);
-
         return $res;
     }
 
@@ -96,38 +111,38 @@ class Login
     }
 
     /**
-    * Get login id by title
+    * Get userID (NÖDVÄNDIG??)
     *
     * @return object
     */
-    public function getIdLoginByTitle($title)
+    public function getIdByUser($user)
     {
-        $sql = "SELECT id FROM login WHERE title = ?;";
-        $res = $this->db->executeFetchAll($sql, [$title]);
+        $sql = "SELECT id FROM login WHERE username = ?;";
+        $res = $this->db->executeFetch($sql, [$user]);
 
         return $res;
     }
 
     /**
-    * Method for editing
+    * Method for editing user
     *
     * @return void
     */
-    public function editLogin($title, $path, $slug, $data, $type, $filter, $publish, $id)
+    public function editUserLogin($id, $user, $password, $admin)
     {
-        $sql = "UPDATE login SET title=?, path=?, slug=?, data=?, type=?, filter=?, published=? WHERE id = ?;";
-        $this->db->execute($sql, [$title, $path, $slug, $data, $type, $filter, $publish, $id]);
+        $sql = "UPDATE login SET username=?, password=?, admin=? WHERE id = ?;";
+        $this->db->execute($sql, [$user, $password, $admin, $id]);
     }
 
     /**
-    * Method for creating
+    * Method for creating new user, always admin = "n"
     *
     * @return void
     */
-    public function createLogin($title)
+    public function addUserLogin($user, $password)
     {
-        $sql = "INSERT INTO login (title) VALUES (?);";
-        $this->db->execute($sql, [$title]);
+        $sql = "INSERT INTO login (username, password, admin) VALUES (?, ?, ?);";
+        $this->db->execute($sql, [$user, $password, "N"]);
     }
 
     /**

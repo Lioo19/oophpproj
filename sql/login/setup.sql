@@ -22,7 +22,7 @@ CREATE TABLE `login`
 (
   `id` INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
   `username` VARCHAR(120) UNIQUE,
-  `password` VARCHAR(120) UNIQUE,
+  `password` VARCHAR(120),
   `admin` CHAR(1), -- Y or N
 
    -- MySQL version 5.6 and higher
@@ -33,7 +33,7 @@ CREATE TABLE `login`
 INSERT INTO `login` (`username`, `password`, `admin`) VALUES
     ("admin", "admin", "Y"),
     ("test", "test", "N");
-    
+
 SELECT `username`, `password`, `admin` FROM `login`;
 
 

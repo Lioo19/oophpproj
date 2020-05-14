@@ -29,4 +29,10 @@ namespace Anax\View;
         </p>
         </fieldset>
     </form>
+
+    <div>
+        <?php if ($login === "yes" || $login === "admin") : ?>
+            <p> Användare inloggad </p>
+        <?php endif; ?>
+    </div>
 </main>

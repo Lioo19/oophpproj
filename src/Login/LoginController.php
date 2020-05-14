@@ -44,9 +44,13 @@ class LoginController implements AppInjectableInterface
     {
         $title = "login";
         $page = $this->app->page;
+        $session = $this->app->session;
+
+        $login = $session->get("login", null);
 
         $data = [
             "title" => $title,
+            "login" => $login
         ];
 
         // $page->add("login/header", $data);
@@ -58,6 +62,30 @@ class LoginController implements AppInjectableInterface
     }
 
     /**
+     * Post-route for login
+     *
+     * @return object
+     */
+    public function indexActionPost() : object
+    {
+        $request = $this->app->request;
+        $response = $this->app->response;
+        $session = $this->app->session;
+
+        $session->delete("login");
+
+        $user = $request->getPost("user", null);
+        $password = $request->getPost("password", null);
+
+        $res = $this->loginClass->checkUserLogin($user, $password);
+
+        //login can either be yes, no or admin
+        $session->set("login", $res);
+
+        return $response->redirect("login");
+    }
+
+    /**
      * Showing the blog-view
      *
      * @return object
@@ -66,41 +94,20 @@ class LoginController implements AppInjectableInterface
     {
         $title = "Ny användare";
         $page = $this->app->page;
+        $session = $this->app->session;
 
-        $page->add("login/register");
+        $success = $session->get("successNewUser", null);
+
+        $data= [
+            "title" => $title,
+            "success" => $success
+        ];
+
+        $page->add("login/register", $data);
 
         return $page->render([
             "title" => $title,
         ]);
-    }
-
-    /**
-     * Post-route for login
-     *
-     * @return object
-     */
-    public function loginActionPost() : object
-    {
-        $request = $this->app->request;
-        $response = $this->app->response;
-        $session = $this->app->session;
-
-        $user = $request->getPost("user", null);
-        $password = $request->getPost("password", null);
-
-        $res = $this->loginClass->checkUserLogin();
-
-        if ($res === true) {
-            $admin = $this->loginClass->checkAdminLogin();
-        }
-
-        if ($admin === true) {
-            // code...
-        } else {
-            return $response->redirect("login");
-        }
-        return $response->redirect("login");
-
     }
 
     /**
@@ -112,14 +119,19 @@ class LoginController implements AppInjectableInterface
     {
         $request = $this->app->request;
         $response = $this->app->response;
+        $session = $this->app->session;
 
-        $slug = $request->getGet("slug", null);
+        $session->delete("successNewUser");
 
-        if ($slug) {
-            return $response->redirect("login/blogpost?slug=$slug");
-        } else {
-            return $response->redirect("login");
-        }
+        $user = $request->getPost("user", null);
+        $password = $request->getPost("password", null);
+
+        $this->loginClass->addUserLogin($user, $password);
+
+        $success = $this->loginClass->getUserFromLogin($user);
+        $session->set("successNewUser", $success);
+
+        return $response->redirect("login/register");
     }
 
     // /**

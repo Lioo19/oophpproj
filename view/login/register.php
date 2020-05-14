@@ -5,6 +5,9 @@ namespace Anax\View;
 ?>
 
 <main>
+    <?php if ($success) : ?>
+        <p>Användare med användarnamn <b><?= $success->username ?></b> senast registrerad</p>
+    <?php endif; ?>
     <h1> Registrera dig </h1>
     <form method="post">
         <fieldset>
@@ -18,7 +21,12 @@ namespace Anax\View;
 
         <p>
             <label>Lösenord<br>
-                <input type="password" name="password" value="" required>
+                <input type="password" name="password" required>
+            </label>
+        </p>
+        <p>
+            <label>Bekräfta lösenord<br>
+                <input type="password" name="confirmpass" required>
             </label>
         </p>
         <p>

@@ -1,2 +1,2 @@
-Copyright Linnéa Olofsson  
+Copyright SpelOnline
 2020

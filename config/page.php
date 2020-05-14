@@ -22,7 +22,6 @@ return [
                 // Change here to set another default stylesheet
                 // "css/dbwebb-se.min.css",
                 "css/style_oophp.min.css",
-                // "css/kmom05.css"
             ],
             "javascripts" => [
                 "js/responsive-menu.js",
