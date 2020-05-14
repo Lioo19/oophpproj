@@ -1,6 +1,6 @@
 <?php
 /**
- * Controller for movie
+ * Controller for product
  */
 return [
     "routes" => [

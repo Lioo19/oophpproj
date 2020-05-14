@@ -50,5 +50,10 @@ return [
             "url" => "content",
             "title" => "blog-verktyg",
         ],
+        [
+            "text" => "Logga In",
+            "url" => "login",
+            "title" => "login",
+        ],
     ],
 ];
