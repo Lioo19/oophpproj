@@ -16,6 +16,6 @@ namespace Anax\View;
     <p>
         <input type="submit" name="search" value="Search">
     </p>
-    <p><a class="productbutton" href="<?= url("product/search-name") ?>">Visa alla</a></p>
+    <p><a class="productbutton" href="<?= url("products/search-name") ?>">Visa alla</a></p>
     </fieldset>
 </form>

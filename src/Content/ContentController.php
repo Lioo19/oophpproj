@@ -42,31 +42,6 @@ class ContentController implements AppInjectableInterface
      */
     public function indexAction()
     {
-        $title = "Blogg";
-        $page = $this->app->page;
-
-        $res = $this->contentClass->getAllFromContent();
-
-        $data = [
-            "res" => $res,
-            "check" => null
-        ];
-
-        $page->add("content/header");
-        $page->add("content/index", $data);
-
-        return $page->render([
-            "title" => $title,
-        ]);
-    }
-
-    /**
-     * Showing the blog-view
-     *
-     * @return object
-     */
-    public function blogAction() : object
-    {
         $title = "blog";
         $page = $this->app->page;
 
@@ -83,6 +58,31 @@ class ContentController implements AppInjectableInterface
         ];
 
         $page->add("content/header", $data);
+        $page->add("content/index", $data);
+
+        return $page->render([
+            "title" => $title,
+        ]);
+    }
+
+    /**
+     * Showing the blog-view
+     *
+     * @return object
+     */
+    public function blogAction() : object
+    {
+        $title = "Blogg";
+        $page = $this->app->page;
+
+        $res = $this->contentClass->getAllFromContent();
+
+        $data = [
+            "res" => $res,
+            "check" => null
+        ];
+
+        $page->add("content/header");
         $page->add("content/blog", $data);
 
         return $page->render([
@@ -95,7 +95,7 @@ class ContentController implements AppInjectableInterface
      *
      * @return object
      */
-    public function blogActionPost() : object
+    public function contentActionPost() : object
     {
         $request = $this->app->request;
         $response = $this->app->response;
@@ -105,7 +105,7 @@ class ContentController implements AppInjectableInterface
         if ($slug) {
             return $response->redirect("content/blogpost?slug=$slug");
         } else {
-            return $response->redirect("content/blog");
+            return $response->redirect("content");
         }
     }
 

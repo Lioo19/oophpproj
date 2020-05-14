@@ -1,30 +1,41 @@
 <?php
+
+namespace Anax\View;
+
+/**
+ * Template file to render a view with content.
+ */
+
+// Show incoming variables and view helper functions
+//echo showEnvironment(get_defined_vars(), get_defined_functions());
 if (!$res) {
     return;
 }
+// var_dump($data);
+
 ?>
-
-<article>
-
-<?php foreach ($res as $row) : ?>
-    <!-- <?php var_dump($row->data); ?> -->
-<section>
-    <header>
-        <!-- <?php print_r($row->slug) ?> -->
-        <?php if ($row->path) : ?>
-            <?php if ($row->type === "post") :?>
-                <h1><a href="blogpost?slug=<?= esc($row->slug) ?>"><?= esc($row->title) ?></a></h1>
-                <!-- <h1><a href="?route=blog/<?= esc($row->slug) ?>"><?= esc($row->title) ?></a></h1> -->
-                <p><i>Published: <time datetime="<?= esc($row->published_iso8601) ?>" pubdate><?= esc($row->published) ?></time></i></p>
-            <?php endif; ?>
-        <?php endif; ?>
-    </header>
-    <?php if ($row->path) : ?>
-        <?php if ($row->type === "post") :?>
-            <?= $row->data ?>
-        <?php endif; ?>
-    <?php endif; ?>
-</section>
+<table>
+    <tr class="first">
+        <th>Id</th>
+        <th>Title</th>
+        <th>Path</th>
+        <th>Slug</th>
+        <th>Published</th>
+        <th>Created</th>
+        <th>Updated</th>
+        <th>Deleted</th>
+    </tr>
+<?php $id = -1; foreach ($res as $row) :
+    $id++; ?>
+    <tr>
+        <td><?= $row->id ?></td>
+        <td><?= $row->title ?></td>
+        <td><?= $row->path ?></td>
+        <td><?= $row->slug ?></td>
+        <td><?= $row->published ?></td>
+        <td><?= $row->created ?></td>
+        <td><?= $row->updated ?></td>
+        <td><?= $row->deleted ?></td>
+    </tr>
 <?php endforeach; ?>
-
-</article>
+</table>

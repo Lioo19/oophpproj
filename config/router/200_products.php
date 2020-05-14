@@ -6,7 +6,7 @@ return [
     "routes" => [
         [
             "info" => "Product controller",
-            "mount" => "product",
+            "mount" => "products",
             "handler" => "\Lioo19\Product\ProductController",
         ],
     ]

@@ -22,7 +22,7 @@ if (!$res) {
     $id++; ?>
     <div>
         <?php if ($check) : ?>
-            <a href="product?id=<?= esc($row->id) ?>">
+            <a href="products/product?id=<?= esc($row->id) ?>">
                 <figure class="productcard">
                     <h5> <?= esc($row->name) ?> </h5>
                     <img class="thumb" src="../<?= $row->image ?>">
@@ -30,12 +30,13 @@ if (!$res) {
                 </figure>
             </a>
         <?php else : ?>
-            <a href="product?id=<?= esc($row->id) ?>">
+            <a href="products/product?id=<?= esc($row->id) ?>">
                 <figure class="productcard">
                     <h5> <?= esc($row->name) ?> </h5>
                     <img class="thumb" src="./<?= $row->image ?>">
                     <p> <?= esc($row->price) ?> kr</p>
                 </figure>
-            </a>        <?php endif; ?>
-<?php endforeach; ?>
+            </a>
+        <?php endif; ?>
+    <?php endforeach; ?>
 </div>

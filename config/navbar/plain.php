@@ -35,7 +35,7 @@ return [
         // ],
         [
             "text" => "Produkter",
-            "url" => "product",
+            "url" => "products",
             "title" => "Visa Filmer",
         ],
         // [
@@ -44,7 +44,7 @@ return [
         //     "title" => "Anax development utilities",
         // ],
         [
-            "text" => "blogg",
+            "text" => "Blogg",
             "url" => "content",
             "title" => "blog-verktyg",
         ],

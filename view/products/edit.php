@@ -86,8 +86,8 @@ namespace Anax\View;
         <input type="submit" name="save" value="Spara">
     </p>
     <p>
-        <a href="<?= url("product/select") ?>">Välj Produkt</a> |
-        <a href="<?= url("product/show-all") ?>">Visa Alla</a>
+        <a href="<?= url("products/select") ?>">Välj Produkt</a> |
+        <a href="<?= url("products/show-all") ?>">Visa Alla</a>
     </p>
     </fieldset>
 </form>

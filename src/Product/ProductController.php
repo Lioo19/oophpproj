@@ -50,12 +50,13 @@ class ProductController implements AppInjectableInterface
         $res = $db->executeFetchAll($sql);
 
         $data = [
+            "title" => $title,
             "res" => $res,
             "check" => null
         ];
 
-        $page->add("product/header");
-        $page->add("product/index", $data);
+        $page->add("products/header");
+        $page->add("products/index", $data);
 
         return $page->render([
             "title" => $title,
@@ -82,8 +83,8 @@ class ProductController implements AppInjectableInterface
             "check" => "check"
         ];
 
-        $page->add("product/header");
-        $page->add("product/show-all", $data);
+        $page->add("products/header");
+        $page->add("products/show-all", $data);
 
         return $page->render([
             "title" => $title,
@@ -136,9 +137,9 @@ class ProductController implements AppInjectableInterface
             "res"   => $res
         ];
 
-        $page->add("product/header", $data);
-        $page->add("product/search-year", $data);
-        $page->add("product/index", $data);
+        $page->add("products/header", $data);
+        $page->add("products/search-year", $data);
+        $page->add("products/index", $data);
 
         return $page->render([
             "title" => $title,
@@ -177,9 +178,9 @@ class ProductController implements AppInjectableInterface
             "res"           => $res
         ];
 
-        $page->add("product/header", $data);
-        $page->add("product/search-name", $data);
-        $page->add("product/show-all", $data);
+        $page->add("products/header", $data);
+        $page->add("products/search-name", $data);
+        $page->add("products/show-all", $data);
 
         return $page->render($data);
     }
@@ -203,8 +204,8 @@ class ProductController implements AppInjectableInterface
             "products" => $products ?? null
         ];
 
-        $page->add("product/header");
-        $page->add("product/select", $data);
+        $page->add("products/header");
+        $page->add("products/select", $data);
 
         return $page->render([
             "title" => $title
@@ -228,19 +229,19 @@ class ProductController implements AppInjectableInterface
         $add = $request->getPost("add", null);
 
         if ((!$id && $edit) || (!$id && $delete)) {
-            return $response->redirect("product/select");
+            return $response->redirect("products/select");
         }
 
         if ($delete && is_numeric($id)) {
             $this->deleteActionPost($id);
-            return $response->redirect("product/select");
+            return $response->redirect("products/select");
         } elseif ($add) {
             $this->addActionPost();
             //fetching last inserted ID
             $id = $db->lastInsertId();
-            return $response->redirect("product/edit?id=$id");
+            return $response->redirect("products/edit?id=$id");
         } elseif ($edit && is_numeric($id)) {
-            return $response->redirect("product/edit?id=$id");
+            return $response->redirect("products/edit?id=$id");
         }
     }
 
@@ -258,15 +259,13 @@ class ProductController implements AppInjectableInterface
         $this->connection();
 
         $deleteSql = "DELETE FROM product WHERE id = ?;";
-        //vill man få en return med alla här? kanske är nice?
         $db->execute($deleteSql, [$id]);
 
-        return $response->redirect("product/select");
+        return $response->redirect("products/select");
     }
 
     /**
      * Post action to add product
-     * DONE?
      *
      * @return object
      */
@@ -278,33 +277,18 @@ class ProductController implements AppInjectableInterface
         $this->connection();
 
         $name = $request->getPost("name", "Namn");
-        $year = $request->getPost("price");
-        $image = $request->getPost("stock");
-        $image = $request->getPost("image", "img/default.jpg");
-        $image = $request->getPost("image", "img/default.jpg");
-        $image = $request->getPost("image", "img/default.jpg");
+        $year = $request->getPost("year", 9999);
         $image = $request->getPost("image", "img/default.jpg");
 
-        // "name",
-        // "price",
-        // "stock",
-        // "brand",
-        // "time",
-        // "players",
-        // "year",
-        // "language",
-        // "description",
-        // "type",
-        // "rating",
-        // "image",
         $addSql = "INSERT INTO product (name, year, image) VALUES (?, ?, ?);";
         $db->execute($addSql, [$name, $year, $image]);
 
-        return $response->redirect("product/select");
+        return $response->redirect("products/select");
     }
 
     /**
      * Post action to edit product
+     * CHECK FOR FAULTS WHEN NOT GIVING ALL PARAMS
      *
      * @return object
      */
@@ -320,11 +304,45 @@ class ProductController implements AppInjectableInterface
         $name = $request->getPost("name", "Namn");
         $year = $request->getPost("year", 9999);
         $image = $request->getPost("image", "img/default.jpg");
+        $price = $request->getPost("price", 9999);
+        $stock = $request->getPost("stock", 9999);
+        $brand = $request->getPost("brand");
+        $time = $request->getPost("time");
+        $players = $request->getPost("players");
+        $language = $request->getPost("language");
+        $description = $request->getPost("description");
+        $type = $request->getPost("type");
+        $rating = $request->getPost("rating");
 
-        $editSql = "UPDATE product SET name = ?, year = ?, image = ? WHERE id = ?;";
-        $db->execute($editSql, [$name, $year, $image, $id]);
+        $editSql = "UPDATE product SET
+        name = ?,
+        price = ?,
+        stock = ?,
+        brand = ?,
+        time = ?,
+        players = ?,
+        language = ?,
+        type = ?,
+        rating = ?,
+        year = ?,
+        image = ?
+        WHERE id = ?;";
+        $db->execute($editSql, [
+            $name,
+            $price,
+            $stock,
+            $brand,
+            $time,
+            $players,
+            $language,
+            $type,
+            $rating,
+            $year,
+            $image,
+            $id
+        ]);
 
-        return $response->redirect("product/select");
+        return $response->redirect("products/select");
     }
 
     /**
@@ -352,11 +370,61 @@ class ProductController implements AppInjectableInterface
           "product" => $chosenProduct ?? null,
         ];
 
-        $page->add("product/header");
-        $page->add("product/edit", $data);
+        $page->add("products/header");
+        $page->add("products/edit", $data);
 
         return $page->render([
           "title" => $title
+        ]);
+    }
+
+
+    //INDIVIDUAL PAGE
+    /**
+     * Post-route for blog-page
+     *
+     * @return object
+     */
+    public function productsActionPost() : object
+    {
+        $request = $this->app->request;
+        $response = $this->app->response;
+
+        $id = $request->getGet("id", null);
+
+        if ($id) {
+            return $response->redirect("products/product?id=$id");
+        } else {
+            return $response->redirect("products");
+        }
+    }
+
+    /**
+     * Showing the product-view
+     *
+     * @return object
+     */
+    public function productAction() : object
+    {
+        $title = "Product";
+        $request = $this->app->request;
+        $page = $this->app->page;
+        $db = $this->app->db;
+        $id = $request->getGet("id", 1);
+        $this->connection();
+
+        $sql = "SELECT * FROM product WHERE id = ?;";
+        $product = $db->executeFetch($sql, [$id]);
+
+        $data = [
+            "product"   => $product
+        ];
+
+        $page->add("products/header");
+        $page->add("products/product", $data);
+
+        return $page->render([
+            "title" => $title,
         ]);
     }
 }
