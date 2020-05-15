@@ -1,15 +1,15 @@
 <?php
 
-namespace Lioo19\Content;
+namespace Lioo19\Blog;
 
 use Anax\Commons\AppInjectableInterface;
 use Anax\Commons\AppInjectableTrait;
 
 /**
-* Class for content
+* Class for blog
 *
 */
-class Content
+class Blog
 {
 
     /**
@@ -25,13 +25,13 @@ class Content
     }
 
     /**
-    * Method that returns everything from content table
+    * Method that returns everything from blog table
     *
     * @return object
     */
-    public function getAllFromContent()
+    public function getAllFromBlog()
     {
-        $sql = "SELECT * FROM content;";
+        $sql = "SELECT * FROM blog;";
         $res = $this->db->executeFetchAll($sql);
 
         return $res;
@@ -42,9 +42,9 @@ class Content
     *
     * @return object
     */
-    public function getSlugContent($slug)
+    public function getSlugBlog($slug)
     {
-        $sql = "SELECT * FROM content WHERE slug = ?;";
+        $sql = "SELECT * FROM blog WHERE slug = ?;";
         $res = $this->db->executeFetch($sql, [$slug]);
 
         return $res;
@@ -55,9 +55,9 @@ class Content
     *
     * @return object
     */
-    public function getIdContent($id)
+    public function getIdBlog($id)
     {
-        $sql = "SELECT * FROM content WHERE id = ?;";
+        $sql = "SELECT * FROM blog WHERE id = ?;";
         $res = $this->db->executeFetch($sql, [$id]);
 
         return $res;
@@ -68,22 +68,22 @@ class Content
     *
     * @return object
     */
-    public function getPathContent($path)
+    public function getPathBlog($path)
     {
-        $sql = "SELECT * FROM content WHERE path = ?;";
+        $sql = "SELECT * FROM blog WHERE path = ?;";
         $res = $this->db->executeFetch($sql, [$path]);
 
         return $res;
     }
 
     /**
-    * Get content id by title
+    * Get blog id by title
     *
     * @return object
     */
-    public function getIdContentByTitle($title)
+    public function getIdBlogByTitle($title)
     {
-        $sql = "SELECT id FROM content WHERE title = ?;";
+        $sql = "SELECT id FROM blog WHERE title = ?;";
         $res = $this->db->executeFetchAll($sql, [$title]);
 
         return $res;
@@ -94,9 +94,9 @@ class Content
     *
     * @return void
     */
-    public function editContent($title, $path, $slug, $data, $type, $filter, $publish, $id)
+    public function editBlog($title, $path, $slug, $data, $type, $filter, $publish, $id)
     {
-        $sql = "UPDATE content SET title=?, path=?, slug=?, data=?, type=?, filter=?, published=? WHERE id = ?;";
+        $sql = "UPDATE blog SET title=?, path=?, slug=?, data=?, type=?, filter=?, published=? WHERE id = ?;";
         $this->db->execute($sql, [$title, $path, $slug, $data, $type, $filter, $publish, $id]);
     }
 
@@ -105,9 +105,9 @@ class Content
     *
     * @return void
     */
-    public function createContent($title)
+    public function createBlog($title)
     {
-        $sql = "INSERT INTO content (title) VALUES (?);";
+        $sql = "INSERT INTO blog (title) VALUES (?);";
         $this->db->execute($sql, [$title]);
     }
 
@@ -116,9 +116,9 @@ class Content
     *
     * @return void
     */
-    public function deleteContent($id)
+    public function deleteBlog($id)
     {
-        $sql = "DELETE FROM content WHERE id = ?;";
+        $sql = "DELETE FROM blog WHERE id = ?;";
         $this->db->execute($sql, [$id]);
     }
 
@@ -137,7 +137,7 @@ SELECT
         WHEN (published <= NOW()) THEN "isPublished"
         ELSE "notPublished"
     END AS status
-FROM content
+FROM blog
 WHERE type=?
 ;
 EOD;
@@ -156,7 +156,7 @@ EOD;
     */
     public function createSupport()
     {
-        $support = new \Lioo19\Content\Support();
+        $support = new \Lioo19\Blog\Support();
 
         return $support;
     }

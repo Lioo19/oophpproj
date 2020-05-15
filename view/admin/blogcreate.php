@@ -4,7 +4,7 @@
 
     <p>
         <label>Rubrik:<br>
-        <input type="text" name="contentTitle" default="A Title"/>
+        <input type="text" name="blogTitle" default="A Title"/>
         </label>
     </p>
 

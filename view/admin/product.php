@@ -25,6 +25,7 @@ namespace Anax\View;
     </p>
 
     <p>
+        Dessa går också att göra till a-länkar istället, bättre? <br>
         <input type="submit" class="button" name="add" value="Ny Produkt">
         <input type="submit" class="button" name="edit" value="Redigera">
         <input type="submit" class="button" name="delete" value="Radera">

@@ -20,6 +20,18 @@ namespace Anax\View;
         </p>
 
         <p>
+            <label>Namn<br>
+                <input type="text" name="name">
+            </label>
+        </p>
+
+        <p>
+            <label>Email<br>
+                <input type="email" name="email"  required>
+            </label>
+        </p>
+
+        <p>
             <label>Lösenord<br>
                 <input type="password" name="password" required>
             </label>

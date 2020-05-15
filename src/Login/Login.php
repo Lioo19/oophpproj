@@ -98,19 +98,6 @@ class Login
     }
 
     /**
-    * Method that returns specific entry with path
-    *
-    * @return object
-    */
-    public function getPathLogin($path)
-    {
-        $sql = "SELECT * FROM login WHERE path = ?;";
-        $res = $this->db->executeFetch($sql, [$path]);
-
-        return $res;
-    }
-
-    /**
     * Get userID (NÖDVÄNDIG??)
     *
     * @return object
@@ -128,10 +115,10 @@ class Login
     *
     * @return void
     */
-    public function editUserLogin($id, $user, $password, $admin)
+    public function editUserLogin($id, $user, $name, $email, $password, $admin)
     {
-        $sql = "UPDATE login SET username=?, password=?, admin=? WHERE id = ?;";
-        $this->db->execute($sql, [$user, $password, $admin, $id]);
+        $sql = "UPDATE login SET username=?, password=?, name=?, email=?, admin=? WHERE id = ?;";
+        $this->db->execute($sql, [$user, $password, $name, $email, $admin, $id]);
     }
 
     /**
@@ -139,59 +126,16 @@ class Login
     *
     * @return void
     */
-    public function addUserLogin($user, $password)
+    public function addUserLogin($user, $password, $name, $email)
     {
-        $sql = "INSERT INTO login (username, password, admin) VALUES (?, ?, ?);";
-        $this->db->execute($sql, [$user, $password, "N"]);
-    }
-
-    /**
-    * Method for deleting
-    *
-    * @return void
-    */
-    public function deleteLogin($id)
-    {
-        $sql = "DELETE FROM login WHERE id = ?;";
-        $this->db->execute($sql, [$id]);
-    }
-
-    /**
-    * Get for pages
-    *
-    * @return object
-    */
-    public function getPages()
-    {
-        $sql = <<<EOD
-SELECT
-    *,
-    CASE
-        WHEN (deleted <= NOW()) THEN "isDeleted"
-        WHEN (published <= NOW()) THEN "isPublished"
-        ELSE "notPublished"
-    END AS status
-FROM login
-WHERE type=?
-;
-EOD;
-        $res = $this->db->executeFetchAll($sql, ["page"]);
-
-        return $res;
-    }
-
-    /**
-    * method for creating support
-    *
-    * @param $data
-    * @param $filters
-    *
-    * @return object
-    */
-    public function createSupport()
-    {
-        $support = new \Lioo19\Login\Support();
-
-        return $support;
+        $sql = "INSERT INTO login (
+            username,
+            password,
+            name,
+            email,
+            admin
+        )
+        VALUES (?, ?, ?, ?, ?);";
+        $this->db->execute($sql, [$user, $password, $name, $email, "N"]);
     }
 }

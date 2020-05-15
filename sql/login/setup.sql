@@ -23,6 +23,8 @@ CREATE TABLE `login`
   `id` INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
   `username` VARCHAR(120) UNIQUE,
   `password` VARCHAR(120),
+  `name` VARCHAR(120),
+  `email` VARCHAR(150),
   `admin` CHAR(1), -- Y or N
 
    -- MySQL version 5.6 and higher
@@ -30,11 +32,11 @@ CREATE TABLE `login`
   `deleted` DATETIME DEFAULT NULL
 ) ENGINE INNODB CHARACTER SET utf8 COLLATE utf8_swedish_ci;
 
-INSERT INTO `login` (`username`, `password`, `admin`) VALUES
-    ("admin", "admin", "Y"),
-    ("test", "test", "N");
+INSERT INTO `login` (`username`, `password`, `name`, `email`, `admin`) VALUES
+    ("admin", "admin", "Admina Admin", "admin@admin.com", "Y"),
+    ("test", "test", "Förnamn Efternamn", "test@test.com", "N");
 
-SELECT `username`, `password`, `admin` FROM `login`;
+SELECT `username`, `password`, `name`, `email`, `admin` FROM `login`;
 
 
 --

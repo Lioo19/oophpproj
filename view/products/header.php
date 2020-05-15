@@ -9,5 +9,4 @@ namespace Anax\View;
     <a href="<?= url("products/search-name") ?>">Sök på spel</a>
     <!-- <a href="<?= url("products/search-year") ?>">Sök på årtal</a> -->
     <!-- <a href="<?= url("products/edit") ?>">Editera</a> | -->
-    <a href="<?= url("products/select") ?>">CRUD</a>
 </navbar>

@@ -19,7 +19,7 @@ return [
             "title" => "Om denna webbplats.",
         ],
         [
-            "text" => "Docs",
+            "text" => "Doc",
             "url" => "dokumentation",
             "title" => "Dokumentation av ramverk och liknande.",
         ],
@@ -45,13 +45,18 @@ return [
         // ],
         [
             "text" => "Blogg",
-            "url" => "content",
+            "url" => "blog",
             "title" => "blog-verktyg",
         ],
         [
             "text" => "Logga In",
             "url" => "login",
             "title" => "login",
+        ],
+        [
+            "text" => "Admin",
+            "url" => "admin",
+            "title" => "admin",
         ],
     ],
 ];

@@ -1,6 +1,6 @@
 <?php
 
-namespace Lioo19\Content;
+namespace Lioo19\Blog;
 
 /**
 * Class with supporting functions

@@ -42,19 +42,11 @@ class AdminController implements AppInjectableInterface
      */
     public function indexAction()
     {
-        $title = "blog";
+        $title = "admin";
         $page = $this->app->page;
-
-        $res = $this->adminClass->getAllFromAdmin();
-
-        foreach ($res as $key => $value) {
-            $supportObject = $this->adminClass->createSupport();
-            $value->data = $supportObject->textFilter($value->data, $value->filter);
-        }
 
         $data = [
             "title" => $title,
-            "res"   => $res
         ];
 
         $page->add("admin/header", $data);
@@ -72,10 +64,10 @@ class AdminController implements AppInjectableInterface
      */
     public function blogAction() : object
     {
-        $title = "Blogg";
+        $title = "Blogg | Admin";
         $page = $this->app->page;
 
-        $res = $this->adminClass->getAllFromAdmin();
+        $res = $this->adminClass->getAllBlog();
 
         $data = [
             "res" => $res,
@@ -91,50 +83,24 @@ class AdminController implements AppInjectableInterface
     }
 
     /**
-     * Post-route for blog-page
+     * Showing the blog-view
      *
      * @return object
      */
-    public function adminActionPost() : object
+    public function productAction() : object
     {
-        $request = $this->app->request;
-        $response = $this->app->response;
-
-        $slug = $request->getGet("slug", null);
-
-        if ($slug) {
-            return $response->redirect("admin/blogpost?slug=$slug");
-        } else {
-            return $response->redirect("admin");
-        }
-    }
-
-    /**
-     * Showing the blogpost-view
-     *
-     * @return object
-     */
-    public function blogpostAction() : object
-    {
-        $request = $this->app->request;
+        $title = "Blogg | Admin";
         $page = $this->app->page;
-        $title = $request->getGet("slug", null);
 
-        if ($title) {
-            $admin = $this->adminClass->getSlugAdmin($title);
-        } else {
-            $admin = $this->adminClass->getIdAdmin(1);
-        }
-
-        $supportObject = $this->adminClass->createSupport();
-        $admin->data = $supportObject->textFilter($admin->data, $admin->filter);
+        $products = $this->adminClass->getAllProducts();
 
         $data = [
-            "admin"   => $admin
+            "products" => $products,
+            "check" => null
         ];
 
         $page->add("admin/header");
-        $page->add("admin/blogpost", $data);
+        $page->add("admin/product", $data);
 
         return $page->render([
             "title" => $title,
@@ -142,123 +108,71 @@ class AdminController implements AppInjectableInterface
     }
 
     /**
-     * Get for admin-view
+     * Showing the users-view
      *
      * @return object
      */
-    public function adminAction() : object
+    public function userAction() : object
     {
-        $title = "ADMIN";
+        $title = "Användare | Admin";
         $page = $this->app->page;
-        $request = $this->app->request;
 
-        $res = $this->adminClass->getAllFromAdmin();
+        $res = $this->adminClass->getAllUsers();
 
         $data = [
-            "title"         => $title,
-            "res"           => $res
+            "res" => $res,
+            "check" => null
         ];
 
-        $page->add("admin/header", $data);
-        $page->add("admin/admin", $data);
+        $page->add("admin/header");
+        $page->add("admin/user", $data);
 
-        return $page->render($data);
+        return $page->render([
+            "title" => $title,
+        ]);
     }
 
     /**
-     * Get for edit-view
+     * POST product selection, redirecting to CRUD
      *
-     * @return object
+     * @return void
      */
-    public function editAction() : object
+    public function productActionPost() : object
     {
-        $title = "Edit";
-        $page = $this->app->page;
         $request = $this->app->request;
-        $id = $request->getGet("id", null);
-
-        $admin = $this->adminClass->getIdAdmin($id);
-
-        $data = [
-            "title"         => $title,
-            "admin"       => $admin
-        ];
-
-        $page->add("admin/header", $data);
-        $page->add("admin/edit", $data);
-
-        return $page->render($data);
-    }
-
-    /**
-     * POST for edit-option, edits in database
-     *
-     * @return object
-     */
-    public function editActionPost() : object
-    {
         $response = $this->app->response;
-        $request = $this->app->request;
+        $db = $this->app->db;
 
-        $adminId = $request->getPost("adminId") ?: $request->getGet("id");
+        $id = $request->getPost("id", null);
+        $edit = $request->getPost("edit", null);
+        $delete = $request->getPost("delete", null);
+        $add = $request->getPost("add", null);
 
-        $adminTitle = $request->getPost("adminTitle", null);
-        $adminPath = $request->getPost("adminPath", null);
-        $adminSlug = $request->getPost("adminSlug", null);
-        $adminData = $request->getPost("adminData", null);
-        $adminType = $request->getPost("adminType", null);
-        $adminFilter = $request->getPost("adminFilter", null);
-        $adminPublish = $request->getPost("adminPublish", null);
-        $adminId = $request->getPost("adminId", null);
-
-        $supportObject = $this->adminClass->createSupport();
-
-        if (!$adminSlug) {
-            $adminSlug = $supportObject->slugify($adminTitle);
+        if ((!$id && $edit) || (!$id && $delete)) {
+            return $response->redirect("admin/product");
         }
-
-        if ($adminSlug) {
-            $res = $this->adminClass->getSlugAdmin($adminSlug);
-            if (!$res) {
-                $adminSlug = $adminSlug . $adminId;
-            }
+        if ($delete && is_numeric($id)) {
+            $this->adminClass->productDelete($id);
+            return $response->redirect("admin/product");
+        } elseif ($add) {
+            return $response->redirect("admin/productcreate");
+        } elseif ($edit && is_numeric($id)) {
+            return $response->redirect("admin/productedit?id=$id");
         }
-
-        if ($adminPath) {
-            $resPath = $this->adminClass->getPathAdmin($adminPath);
-            if ($resPath) {
-                $adminPath = $adminPath . $adminId;
-            }
-        } else {
-            $adminPath = null;
-        }
-
-        $this->adminClass->editAdmin(
-            $adminTitle,
-            $adminPath,
-            $adminSlug,
-            $adminData,
-            $adminType,
-            $adminFilter,
-            $adminPublish,
-            $adminId
-        );
-
-        return $response->redirect("admin/admin");
     }
 
     /**
-     * Create a new post, get-route
+     * Create a new product, get-route
      *
      * @return object
      */
-    public function createAction() : object
+    public function productcreateAction() : object
     {
-        $title = "Nytt inlägg";
+        $title = "Ny produkt";
         $page = $this->app->page;
 
         $page->add("admin/header");
-        $page->add("admin/create");
+        $page->add("admin/productcreate");
 
         return $page->render([
             "title" => $title
@@ -266,122 +180,259 @@ class AdminController implements AppInjectableInterface
     }
 
     /**
-     * Post action to create post
+     * Post action to blogcreate post
      *
      * @return object
      */
-    public function createActionPost() : object
+    public function productcreateActionPost() : object
     {
         $response = $this->app->response;
         $request = $this->app->request;
 
-        $adminTitle = $request->getPost("adminTitle") ?: $request->getGet("title");
+        $productName = $request->getPost("productName") ?: $request->getGet("name");
 
-        $this->adminClass->createAdmin($adminTitle);
+        $this->adminClass->createProduct($productName);
 
-        $adminId = $this->adminClass->getIdAdminByTitle($adminTitle);
-        $adminId = json_encode($adminId[0]);
-        $adminId = substr($adminId, 6, -1);
+        $productId = $this->adminClass->getIdProductByName($productName);
+        $productId = json_encode($productId[0]);
+        $productId = substr($productId, 6, -1);
 
-        return $response->redirect("admin/edit?id=$adminId");
+        return $response->redirect("admin/productedit?id=$productId");
     }
 
     /**
-     * Get for delete
+     * Get action to edit product
      *
      * @return object
      */
-    public function deleteAction() : object
+    public function producteditAction() : object
     {
-        $title = "delete";
+        $title = " Edit product ";
+        $page = $this->app->page;
+        $request = $this->app->request;
+
+        $id = $request->getGet("id");
+
+        $chosenProduct = $this->adminClass->getProductsById($id);
+
+        $data = [
+          "product" => $chosenProduct ?? null,
+        ];
+
+        $page->add("admin/header");
+        $page->add("admin/productedit", $data);
+
+        return $page->render([
+          "title" => $title
+        ]);
+    }
+
+
+    /**
+     * Post action to edit product
+     * CHECK FOR FAULTS WHEN NOT GIVING ALL PARAMS
+     * COULD REWORK INTO ARRAY
+     *
+     * @return object
+     */
+    public function producteditActionPost() : object
+    {
+        $response = $this->app->response;
+        $request = $this->app->request;
+
+        $id = $request->getPost("id") ?: $request->getGet("id");
+        // var_dump($id);
+        $name = $request->getPost("name", "Namn");
+        $year = $request->getPost("year", 9999);
+        $image = $request->getPost("image", "img/default.jpg");
+        $price = $request->getPost("price", 9999);
+        $stock = $request->getPost("stock", 9999);
+        $brand = $request->getPost("brand");
+        $time = $request->getPost("time");
+        $players = $request->getPost("players");
+        $language = $request->getPost("language");
+        $description = $request->getPost("description");
+        $type = $request->getPost("type");
+        $rating = $request->getPost("rating");
+
+        $this->adminClass->editProductsById(
+            $name,
+            $price,
+            $stock,
+            $brand,
+            $time,
+            $players,
+            $language,
+            $type,
+            $rating,
+            $year,
+            $image,
+            $id
+        );
+
+        return $response->redirect("admin/product");
+    }
+
+    /**
+     * Get for blogedit-view
+     *
+     * @return object
+     */
+    public function blogeditAction() : object
+    {
+        $title = "Edit";
         $page = $this->app->page;
         $request = $this->app->request;
         $id = $request->getGet("id", null);
 
-        $admin = $this->adminClass->getIdAdmin($id);
+        $blog = $this->adminClass->getBlogById($id);
 
         $data = [
             "title"         => $title,
-            "admin"       => $admin
+            "blog"       => $blog
         ];
 
         $page->add("admin/header", $data);
-        $page->add("admin/delete", $data);
+        $page->add("admin/blogedit", $data);
 
         return $page->render($data);
     }
 
     /**
-     * Post action to delete movie
+     * POST for blogedit-option
+     *
+     * @return object
+     */
+    public function blogeditActionPost() : object
+    {
+        $response = $this->app->response;
+        $request = $this->app->request;
+
+        $blogId = $request->getPost("blogId") ?: $request->getGet("id");
+
+        $blogTitle = $request->getPost("blogTitle", null);
+        $blogPath = $request->getPost("blogPath", null);
+        $blogSlug = $request->getPost("blogSlug", null);
+        $blogData = $request->getPost("blogData", null);
+        $blogType = $request->getPost("blogType", null);
+        $blogFilter = $request->getPost("blogFilter", null);
+        $blogPublish = $request->getPost("blogPublish", null);
+        $blogId = $request->getPost("blogId", null);
+
+        $supportObject = $this->adminClass->createSupport();
+
+        if (!$blogSlug) {
+            $blogSlug = $supportObject->slugify($blogTitle);
+        }
+
+        if ($blogSlug) {
+            $res = $this->adminClass->getSlugBlog($blogSlug);
+            if (!$res) {
+                $blogSlug = $blogSlug . $blogId;
+            }
+        }
+
+        if ($blogPath) {
+            $resPath = $this->AdminClass->getPathBlog($blogPath);
+            if ($resPath) {
+                $blogPath = $blogPath . $blogId;
+            }
+        } else {
+            $blogPath = null;
+        }
+
+        $this->adminClass->editBlog(
+            $blogTitle,
+            $blogPath,
+            $blogSlug,
+            $blogData,
+            $blogType,
+            $blogFilter,
+            $blogPublish,
+            $blogId
+        );
+
+        return $response->redirect("admin/blog");
+    }
+
+    /**
+     * Create a new post, get-route
+     *
+     * @return object
+     */
+    public function blogcreateAction() : object
+    {
+        $title = "Nytt inlägg";
+        $page = $this->app->page;
+
+        $page->add("admin/header");
+        $page->add("admin/blogcreate");
+
+        return $page->render([
+            "title" => $title
+        ]);
+    }
+
+    /**
+     * Post action to blogcreate post
+     *
+     * @return object
+     */
+    public function blogcreateActionPost() : object
+    {
+        $response = $this->app->response;
+        $request = $this->app->request;
+
+        $blogTitle = $request->getPost("blogTitle") ?: $request->getGet("title");
+
+        $this->adminClass->createBlog($blogTitle);
+
+        $blogId = $this->adminClass->getIdBlogByTitle($blogTitle);
+        $blogId = json_encode($blogId[0]);
+        $blogId = substr($blogId, 6, -1);
+
+        return $response->redirect("admin/blogedit?id=$blogId");
+    }
+
+    /**
+     * Get for blogdelete
+     *
+     * @return object
+     */
+    public function blogdeleteAction() : object
+    {
+        $title = "delete blogpost";
+        $page = $this->app->page;
+        $request = $this->app->request;
+        $id = $request->getGet("id", null);
+
+        $blog = $this->adminClass->getBlogById($id);
+
+        $data = [
+            "title"         => $title,
+            "blog"       => $blog
+        ];
+
+        $page->add("admin/header", $data);
+        $page->add("admin/blogdelete", $data);
+
+        return $page->render($data);
+    }
+
+    /**
+     * Post action to delete blog
      *
      *
      * @return object
      */
-    public function deleteActionPost() : object
+    public function blogdeleteActionPost() : object
     {
         $response = $this->app->response;
         $request = $this->app->request;
         $id = $request->getPost("id") ?: $request->getGet("id");
 
-        $this->adminClass->deleteAdmin($id);
+        $this->adminClass->deleteBlog($id);
 
-        return $response->redirect("admin/admin");
-    }
-
-
-    /**
-     * Get for pages-view
-     *
-     * @return object
-     */
-    public function pagesAction() : object
-    {
-        $title = "Visa sidor";
-        $page = $this->app->page;
-        $request = $this->app->request;
-
-        $res = $this->adminClass->getPages();
-
-        $data = [
-            "title"         => $title,
-            "res"           => $res
-        ];
-
-        $page->add("admin/header", $data);
-        $page->add("admin/pages", $data);
-
-        return $page->render($data);
-    }
-
-    /**
-     * Showing the page-view
-     *
-     * @return object
-     */
-    public function pageAction() : object
-    {
-        $request = $this->app->request;
-        $page = $this->app->page;
-        $title = $request->getGet("slug", null);
-
-        if ($title) {
-            $admin = $this->adminClass->getSlugAdmin($title);
-        } else {
-            $admin = $this->adminClass->getIdAdmin(1);
-        }
-
-        $supportObject = $this->adminClass->createSupport();
-        $admin->data = $supportObject->textFilter($admin->data, $admin->filter);
-
-        $data = [
-            "admin"   => $admin
-        ];
-
-        $page->add("admin/header");
-        $page->add("admin/blogpost", $data);
-
-        return $page->render([
-            "title" => $title,
-        ]);
+        return $response->redirect("admin/blog");
     }
 }

@@ -2,11 +2,11 @@
     <fieldset>
     <legend>Delete</legend>
 
-    <input type="hidden" name="contentId" value="<?= esc($content->id) ?>"/>
+    <input type="hidden" name="blogId" value="<?= esc($blog->id) ?>"/>
 
     <p>
         <label>Inlägg:<br>
-            <input type="text" name="contentTitle" value="<?= esc($content->title) ?>" readonly/>
+            <input type="text" name="blogTitle" value="<?= esc($blog->title) ?>" readonly/>
         </label>
     </p>
 
