@@ -64,19 +64,6 @@ class Blog
     }
 
     /**
-    * Method that returns specific entry with path
-    *
-    * @return object
-    */
-    public function getPathBlog($path)
-    {
-        $sql = "SELECT * FROM blog WHERE path = ?;";
-        $res = $this->db->executeFetch($sql, [$path]);
-
-        return $res;
-    }
-
-    /**
     * Get blog id by title
     *
     * @return object
@@ -87,28 +74,6 @@ class Blog
         $res = $this->db->executeFetchAll($sql, [$title]);
 
         return $res;
-    }
-
-    /**
-    * Method for creating
-    *
-    * @return void
-    */
-    public function createBlog($title)
-    {
-        $sql = "INSERT INTO blog (title) VALUES (?);";
-        $this->db->execute($sql, [$title]);
-    }
-
-    /**
-    * Method for deleting
-    *
-    * @return void
-    */
-    public function deleteBlog($id)
-    {
-        $sql = "DELETE FROM blog WHERE id = ?;";
-        $this->db->execute($sql, [$id]);
     }
 
     /**

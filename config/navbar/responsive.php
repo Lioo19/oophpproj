@@ -25,8 +25,8 @@ if ($_SESSION) {
                 ],
                 [
                     "text" => "Doc",
-                    "url" => "dokumentation",
-                    "title" => "Dokumentation av ramverk och liknande.",
+                    "url" => "doc",
+                    "title" => "Dokumentation",
                 ],
                 [
                     "text" => "Produkter",
@@ -97,7 +97,7 @@ if ($_SESSION) {
             ],
         ];
     }
-}  else {
+} else {
     $navbarArray = [
         // Use for styling the menu
         "id" => "rm-menu",

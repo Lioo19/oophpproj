@@ -15,14 +15,14 @@ class Support
     * @param $admin string of admin
     * @param $chosenFilters string of chosen filters
     */
-    public function textFilter($admin, $chosenFilters)
+    public function textFilter($text, $chosenFilters)
     {
         $textf = new \Lioo19\MyTextFilter\MyTextFilter();
 
         $chosenFilters = strtolower($chosenFilters);
         $chosenFiltersArray = explode(",", $chosenFilters);
 
-        $textRes = $textf->parse($admin, $chosenFiltersArray);
+        $textRes = $textf->parse($text, $chosenFiltersArray);
 
         return $textRes;
     }

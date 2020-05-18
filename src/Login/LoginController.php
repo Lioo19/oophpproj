@@ -50,7 +50,7 @@ class LoginController implements AppInjectableInterface
         $successNewUser = $request->getPost("successNewUser", null);
 
         $login = $session->get("login", null);
-        var_dump($session);
+        // var_dump($session);
 
         $data = [
             "title" => $title,
@@ -183,5 +183,4 @@ class LoginController implements AppInjectableInterface
             "title" => $title,
         ]);
     }
-
 }

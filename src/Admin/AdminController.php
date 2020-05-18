@@ -22,6 +22,8 @@ class AdminController implements AppInjectableInterface
 {
     use AppInjectableTrait;
     private $adminClass;
+    private $blogAdminClass;
+    private $productAdminClass;
 
     /**
      * Setup to database and create new adminClass
@@ -39,7 +41,6 @@ class AdminController implements AppInjectableInterface
         } else {
             return $response->redirect("login/noaccess");
         }
-
     }
 
     /**

@@ -11,7 +11,6 @@ use Anax\Commons\AppInjectableTrait;
 */
 class Login
 {
-
     /**
     * Constructor which takes database path as param
     *@param object database

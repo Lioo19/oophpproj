@@ -17,12 +17,11 @@ class MyTextFilter
      * @var array $filters Supported filters with method names of
      *                     their respective handler.
      */
-    private $filters = [
+    private static $filters = [
         "bbcode"       => "bbcode2html",
         "link"         => "makeClickable",
         "markdown"     => "markdown",
         "nl2br"        => "nl2br",
-        "strip_tags"   => "strip",
         "htmlentities" => "esc"
     ];
 
@@ -132,18 +131,6 @@ class MyTextFilter
     public function nl2br($text)
     {
         return nl2br($text);
-    }
-
-    /**
-     * Strips the text of tags completely
-     *
-     * @param string $text The text that should be formatted.
-     *
-     * @return string the formatted text.
-     */
-    public function strip($text)
-    {
-        return strip_tags($text);
     }
 
     /**

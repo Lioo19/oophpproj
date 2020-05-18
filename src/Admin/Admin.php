@@ -8,10 +8,10 @@ use Anax\Commons\AppInjectableTrait;
 /**
 * Class for admin
 *
+* @SuppressWarnings(PHPMD.ExcessiveParameterList)
 */
 class Admin
 {
-
     /**
     * Constructor which takes database path as param
     *@param object database
@@ -26,6 +26,7 @@ class Admin
 
     /**
     * Returns all users
+    * DOES NOT return password or ID
     *
     * @return object
     */
@@ -93,8 +94,8 @@ class Admin
         $rating,
         $year,
         $image,
-        $id)
-    {
+        $id
+    ) {
         $editSql = "UPDATE product SET
         name = ?,
         price = ?,
@@ -266,7 +267,7 @@ class Admin
      *
      * @return object
      */
-    public function productCreate($id) : object
+    public function productCreate($name, $year, $image) : object
     {
         $addSql = "INSERT INTO product (name, year, image) VALUES (?, ?, ?);";
         $this->db->execute($addSql, [$name, $year, $image]);
