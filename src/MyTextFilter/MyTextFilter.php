@@ -41,12 +41,16 @@ class MyTextFilter
      */
     public function parse($text, $filter)
     {
+        foreach ($filter as $k => $v) {
+            $v = trim($v);
+        }
+
         foreach ($this->filters as $k => $v) {
             if (in_array($k, $filter)) {
-                $text = $this->$v($text);
+                $text2 = $this->$v($text);
             }
         }
-        return $text;
+        return $text2;
     }
 
 

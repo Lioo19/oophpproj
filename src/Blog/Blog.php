@@ -90,17 +90,6 @@ class Blog
     }
 
     /**
-    * Method for editing
-    *
-    * @return void
-    */
-    public function editBlog($title, $path, $slug, $data, $type, $filter, $publish, $id)
-    {
-        $sql = "UPDATE blog SET title=?, path=?, slug=?, data=?, type=?, filter=?, published=? WHERE id = ?;";
-        $this->db->execute($sql, [$title, $path, $slug, $data, $type, $filter, $publish, $id]);
-    }
-
-    /**
     * Method for creating
     *
     * @return void
@@ -123,30 +112,6 @@ class Blog
     }
 
     /**
-    * Get for pages
-    *
-    * @return object
-    */
-    public function getPages()
-    {
-        $sql = <<<EOD
-SELECT
-    *,
-    CASE
-        WHEN (deleted <= NOW()) THEN "isDeleted"
-        WHEN (published <= NOW()) THEN "isPublished"
-        ELSE "notPublished"
-    END AS status
-FROM blog
-WHERE type=?
-;
-EOD;
-        $res = $this->db->executeFetchAll($sql, ["page"]);
-
-        return $res;
-    }
-
-    /**
     * method for creating support
     *
     * @param $data
@@ -156,7 +121,7 @@ EOD;
     */
     public function createSupport()
     {
-        $support = new \Lioo19\Blog\Support();
+        $support = new \Lioo19\Support\Support();
 
         return $support;
     }

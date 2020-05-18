@@ -1,6 +1,6 @@
 <?php
 
-namespace Lioo19\Admin;
+namespace Lioo19\Support;
 
 /**
 * Class with supporting functions
@@ -21,9 +21,6 @@ class Support
 
         $chosenFilters = strtolower($chosenFilters);
         $chosenFiltersArray = explode(",", $chosenFilters);
-        foreach ($chosenFiltersArray as $key => $value) {
-            $value = trim($value);
-        }
 
         $textRes = $textf->parse($admin, $chosenFiltersArray);
 

@@ -1,6 +1,6 @@
 <form method="post">
     <fieldset>
-    <legend>Skapa inlägg</legend>
+    <legend>Skapa produkt</legend>
 
     <p>
         <label>Rubrik:<br>

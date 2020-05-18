@@ -30,8 +30,16 @@ class AdminController implements AppInjectableInterface
      */
     public function initialize()
     {
-        $this->app->db->connect();
-        $this->adminClass = new Admin($this->app->db);
+        $session = $this->app->session;
+        $response = $this->app->response;
+
+        if ($session->get("login") === "admin") {
+            $this->app->db->connect();
+            $this->adminClass = new Admin($this->app->db);
+        } else {
+            return $response->redirect("login/noaccess");
+        }
+
     }
 
     /**
@@ -89,7 +97,7 @@ class AdminController implements AppInjectableInterface
      */
     public function productAction() : object
     {
-        $title = "Blogg | Admin";
+        $title = "Produkter | Admin";
         $page = $this->app->page;
 
         $products = $this->adminClass->getAllProducts();
@@ -106,6 +114,33 @@ class AdminController implements AppInjectableInterface
             "title" => $title,
         ]);
     }
+
+    /**
+     * Showing the blog-view
+     *
+     * @return object
+     */
+    public function productadminAction() : object
+    {
+        $title = "CRUD produkter | Admin";
+        $page = $this->app->page;
+
+        $products = $this->adminClass->getAllProducts();
+
+        $data = [
+            "products" => $products,
+            "check" => null
+        ];
+
+        $page->add("admin/header");
+        $page->add("admin/productadmin", $data);
+
+        return $page->render([
+            "title" => $title,
+        ]);
+    }
+
+
 
     /**
      * Showing the users-view

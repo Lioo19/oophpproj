@@ -243,7 +243,7 @@ class Admin
     */
     public function createSupport()
     {
-        $support = new \Lioo19\Admin\Support();
+        $support = new \Lioo19\Support\Support();
 
         return $support;
     }

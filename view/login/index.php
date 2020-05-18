@@ -6,6 +6,11 @@ namespace Anax\View;
 
 <main>
     <h1> Logga in </h1>
+    <div>
+        <?php if ($successNewUser) : ?>
+            <p> Användare skapad! </p>
+        <?php endif; ?>
+    </div>
     <form method="post">
         <fieldset>
         <legend>Logga In</legend>
@@ -26,13 +31,18 @@ namespace Anax\View;
         </p>
         <p>
             <a href="<?= url("login/register") ?>">Registrera dig</a>
+            <a href="<?= url("login/logout") ?>">Logga ut</a>
         </p>
         </fieldset>
     </form>
 
     <div>
-        <?php if ($login === "yes" || $login === "admin") : ?>
+        <?php if ($login === "yes") : ?>
             <p> Användare inloggad </p>
+        <?php elseif ($login === "admin") : ?>
+            <p> Användare med admin-rättigheter inloggad </p>
+        <?php elseif ($login === "no") : ?>
+            <p> Inloggning misslyckades </p>
         <?php endif; ?>
     </div>
 </main>

@@ -3,7 +3,6 @@
     <legend>Edit</legend>
     <input type="hidden" name="blogId" value="<?= esc($blog->id) ?>"/>
 
-    <!-- <?php print_r($blog);?> -->
     <p>
         <label>Title:<br>
         <input type="text" name="blogTitle" value="<?= esc($blog->title) ?>"/>

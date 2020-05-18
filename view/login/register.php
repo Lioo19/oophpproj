@@ -5,9 +5,6 @@ namespace Anax\View;
 ?>
 
 <main>
-    <?php if ($success) : ?>
-        <p>Användare med användarnamn <b><?= $success->username ?></b> senast registrerad</p>
-    <?php endif; ?>
     <h1> Registrera dig </h1>
     <form method="post">
         <fieldset>

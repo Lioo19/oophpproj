@@ -45,12 +45,17 @@ class LoginController implements AppInjectableInterface
         $title = "login";
         $page = $this->app->page;
         $session = $this->app->session;
+        $request = $this->app->request;
+
+        $successNewUser = $request->getPost("successNewUser", null);
 
         $login = $session->get("login", null);
+        var_dump($session);
 
         $data = [
             "title" => $title,
-            "login" => $login
+            "login" => $login,
+            "successNewUser" => $successNewUser
         ];
 
         // $page->add("login/header", $data);
@@ -81,6 +86,7 @@ class LoginController implements AppInjectableInterface
 
         //login can either be yes, no or admin
         $session->set("login", $res);
+        $session->set("user", $user);
 
         return $response->redirect("login");
     }
@@ -94,13 +100,9 @@ class LoginController implements AppInjectableInterface
     {
         $title = "Ny användare";
         $page = $this->app->page;
-        $session = $this->app->session;
-
-        $success = $session->get("successNewUser", null);
 
         $data= [
-            "title" => $title,
-            "success" => $success
+            "title" => $title
         ];
 
         $page->add("login/register", $data);
@@ -119,9 +121,6 @@ class LoginController implements AppInjectableInterface
     {
         $request = $this->app->request;
         $response = $this->app->response;
-        $session = $this->app->session;
-
-        $session->delete("successNewUser");
 
         $user = $request->getPost("user", null);
         $password = $request->getPost("password", null);
@@ -131,8 +130,58 @@ class LoginController implements AppInjectableInterface
         $this->loginClass->addUserLogin($user, $password, $name, $email);
 
         $success = $this->loginClass->getUserFromLogin($user);
-        $session->set("successNewUser", $success);
+        $request->setPost("successNewUser", $success);
 
-        return $response->redirect("login/register");
+        return $response->redirect("login/index");
     }
+
+    /**
+     * Logout view
+     * Cleaning up session and logging out user
+     *
+     * @return object
+     */
+    public function logoutAction() : object
+    {
+        $title = "Utloggad";
+        $page = $this->app->page;
+        $session = $this->app->session;
+
+        $session->Delete("login");
+        $session->Delete("user");
+
+        $data= [
+            "title" => $title
+        ];
+
+        $page->add("login/logout", $data);
+
+        return $page->render([
+            "title" => $title,
+        ]);
+    }
+
+    /**
+     * Logout view
+     * Cleaning up session and logging out user
+     *
+     * @return object
+     */
+    public function noaccessAction() : object
+    {
+        $title = "Utloggad";
+        $page = $this->app->page;
+        $session = $this->app->session;
+
+        $data= [
+            "title" => $title
+        ];
+
+        $page->add("login/noaccess", $data);
+
+        return $page->render([
+            "title" => $title,
+        ]);
+    }
+
 }
