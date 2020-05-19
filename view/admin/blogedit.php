@@ -25,11 +25,6 @@
      </p>
 
      <p>
-         <label>Type:<br>
-         <input type="text" name="blogType" value="<?= esc($blog->type) ?>"/>
-     </p>
-
-     <p>
          <label>Filter:<br>
          <input type="text" name="blogFilter" value="<?= esc($blog->filter) ?>"/>
      </p>

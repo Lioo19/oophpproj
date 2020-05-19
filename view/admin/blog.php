@@ -8,7 +8,6 @@ if (!$res) {
     <tr class="first">
         <th>Id</th>
         <th>Title</th>
-        <th>Type</th>
         <th>Published</th>
         <th>Created</th>
         <th>Updated</th>
@@ -20,7 +19,6 @@ if (!$res) {
     <tr>
         <td><?= $row->id ?></td>
         <td><?= $row->title ?></td>
-        <td><?= $row->type ?></td>
         <td><?= $row->published ?></td>
         <td><?= $row->created ?></td>
         <td><?= $row->updated ?></td>

@@ -17,12 +17,12 @@ class MyTextFilter
      * @var array $filters Supported filters with method names of
      *                     their respective handler.
      */
-    private static $filters = [
+    private $filters = [
         "bbcode"       => "bbcode2html",
         "link"         => "makeClickable",
         "markdown"     => "markdown",
         "nl2br"        => "nl2br",
-        "htmlentities" => "esc"
+        "esc" => "esc"
     ];
 
 
@@ -46,10 +46,10 @@ class MyTextFilter
 
         foreach ($this->filters as $k => $v) {
             if (in_array($k, $filter)) {
-                $text2 = $this->$v($text);
+                $text = $this->$v($text);
             }
         }
-        return $text2;
+        return $text;
     }
 
 

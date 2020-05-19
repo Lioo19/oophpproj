@@ -38,6 +38,8 @@ class AdminController implements AppInjectableInterface
         if ($session->get("login") === "admin") {
             $this->app->db->connect();
             $this->adminClass = new Admin($this->app->db);
+            $this->blogAdminClass = new BlogAdmin($this->app->db);
+            $this->productAdminClass = new ProductAdmin($this->app->db);
         } else {
             return $response->redirect("login/noaccess");
         }
@@ -67,83 +69,6 @@ class AdminController implements AppInjectableInterface
     }
 
     /**
-     * Showing the blog-view
-     *
-     * @return object
-     */
-    public function blogAction() : object
-    {
-        $title = "Blogg | Admin";
-        $page = $this->app->page;
-
-        $res = $this->adminClass->getAllBlog();
-
-        $data = [
-            "res" => $res,
-            "check" => null
-        ];
-
-        $page->add("admin/header");
-        $page->add("admin/blog", $data);
-
-        return $page->render([
-            "title" => $title,
-        ]);
-    }
-
-    /**
-     * Showing the blog-view
-     *
-     * @return object
-     */
-    public function productAction() : object
-    {
-        $title = "Produkter | Admin";
-        $page = $this->app->page;
-
-        $products = $this->adminClass->getAllProducts();
-
-        $data = [
-            "products" => $products,
-            "check" => null
-        ];
-
-        $page->add("admin/header");
-        $page->add("admin/product", $data);
-
-        return $page->render([
-            "title" => $title,
-        ]);
-    }
-
-    /**
-     * Showing the blog-view
-     *
-     * @return object
-     */
-    public function productadminAction() : object
-    {
-        $title = "CRUD produkter | Admin";
-        $page = $this->app->page;
-
-        $products = $this->adminClass->getAllProducts();
-
-        $data = [
-            "products" => $products,
-            "check" => null
-        ];
-
-        $page->add("admin/header");
-        $page->add("admin/productadmin", $data);
-
-        return $page->render([
-            "title" => $title,
-        ]);
-    }
-
-
-
-    /**
      * Showing the users-view
      *
      * @return object
@@ -169,7 +94,83 @@ class AdminController implements AppInjectableInterface
     }
 
     /**
+     * Showing the blog-view
+     *
+     * @return object
+     */
+    public function blogAction() : object
+    {
+        $title = "Blogg | Admin";
+        $page = $this->app->page;
+
+        $res = $this->blogAdminClass->getAllBlog();
+
+        $data = [
+            "res" => $res,
+            "check" => null
+        ];
+
+        $page->add("admin/header");
+        $page->add("admin/blog", $data);
+
+        return $page->render([
+            "title" => $title,
+        ]);
+    }
+
+    /**
+     * Showing the blog-view
+     *
+     * @return object
+     */
+    public function productAction() : object
+    {
+        $title = "Produkter | Admin";
+        $page = $this->app->page;
+
+        $products = $this->productAdminClass->getAllProducts();
+
+        $data = [
+            "products" => $products,
+            "check" => null
+        ];
+
+        $page->add("admin/header");
+        $page->add("admin/product", $data);
+
+        return $page->render([
+            "title" => $title,
+        ]);
+    }
+
+    /**
+     * Showing the blog-view
+     *
+     * @return object
+     */
+    public function productadminAction() : object
+    {
+        $title = "CRUD produkter | Admin";
+        $page = $this->app->page;
+
+        $products = $this->productAdminClass->getAllProducts();
+
+        $data = [
+            "products" => $products,
+            "check" => null
+        ];
+
+        $page->add("admin/header");
+        $page->add("admin/productadmin", $data);
+
+        return $page->render([
+            "title" => $title,
+        ]);
+    }
+
+    /**
      * POST product selection, redirecting to CRUD
+     * DELETE IS NOT WORKING
      *
      * @return void
      */
@@ -177,7 +178,6 @@ class AdminController implements AppInjectableInterface
     {
         $request = $this->app->request;
         $response = $this->app->response;
-        $db = $this->app->db;
 
         $id = $request->getPost("id", null);
         $edit = $request->getPost("edit", null);
@@ -188,13 +188,41 @@ class AdminController implements AppInjectableInterface
             return $response->redirect("admin/product");
         }
         if ($delete && is_numeric($id)) {
-            $this->adminClass->productDelete($id);
+            $this->productAdminClass->productDelete($id);
             return $response->redirect("admin/product");
         } elseif ($add) {
             return $response->redirect("admin/productcreate");
         } elseif ($edit && is_numeric($id)) {
             return $response->redirect("admin/productedit?id=$id");
         }
+    }
+
+    /**
+     * Create a new product, get-route
+     *
+     * @return object
+     */
+    public function productdeleteAction() : object
+    {
+        $title = "Raderar produkt";
+        $page = $this->app->page;
+        $request = $this->app->request;
+        $id = $request->getGet("id");
+
+        $this->productAdminClass->productDelete($id);
+        $products = $this->productAdminClass->getAllProducts();
+
+        $data = [
+            "products" => $products,
+            "title" => $title,
+        ];
+
+        $page->add("admin/header", $data);
+        $page->add("admin/product", $data);
+
+        return $page->render([
+            "title" => $title
+        ]);
     }
 
     /**
@@ -227,9 +255,9 @@ class AdminController implements AppInjectableInterface
 
         $productName = $request->getPost("productName") ?: $request->getGet("name");
 
-        $this->adminClass->createProduct($productName);
+        $this->productAdminClass->createProduct($productName);
 
-        $productId = $this->adminClass->getIdProductByName($productName);
+        $productId = $this->productAdminClass->getIdProductByName($productName);
         $productId = json_encode($productId[0]);
         $productId = substr($productId, 6, -1);
 
@@ -249,7 +277,7 @@ class AdminController implements AppInjectableInterface
 
         $id = $request->getGet("id");
 
-        $chosenProduct = $this->adminClass->getProductsById($id);
+        $chosenProduct = $this->productAdminClass->getProductsById($id);
 
         $data = [
           "product" => $chosenProduct ?? null,
@@ -262,7 +290,6 @@ class AdminController implements AppInjectableInterface
           "title" => $title
         ]);
     }
-
 
     /**
      * Post action to edit product
@@ -288,10 +315,9 @@ class AdminController implements AppInjectableInterface
         $players = $request->getPost("players");
         $language = $request->getPost("language");
         $description = $request->getPost("description");
-        $type = $request->getPost("type");
         $rating = $request->getPost("rating");
 
-        $this->adminClass->editProductsById(
+        $this->productAdminClass->editProductsById(
             $name,
             $price,
             $stock,
@@ -299,7 +325,6 @@ class AdminController implements AppInjectableInterface
             $time,
             $players,
             $language,
-            $type,
             $rating,
             $year,
             $image,
@@ -321,7 +346,7 @@ class AdminController implements AppInjectableInterface
         $request = $this->app->request;
         $id = $request->getGet("id", null);
 
-        $blog = $this->adminClass->getBlogById($id);
+        $blog = $this->blogAdminClass->getBlogById($id);
 
         $data = [
             "title"         => $title,
@@ -350,26 +375,25 @@ class AdminController implements AppInjectableInterface
         $blogPath = $request->getPost("blogPath", null);
         $blogSlug = $request->getPost("blogSlug", null);
         $blogData = $request->getPost("blogData", null);
-        $blogType = $request->getPost("blogType", null);
         $blogFilter = $request->getPost("blogFilter", null);
         $blogPublish = $request->getPost("blogPublish", null);
         $blogId = $request->getPost("blogId", null);
 
-        $supportObject = $this->adminClass->createSupport();
+        $supportObject = $this->blogAdminClass->createSupport();
 
         if (!$blogSlug) {
             $blogSlug = $supportObject->slugify($blogTitle);
         }
 
         if ($blogSlug) {
-            $res = $this->adminClass->getSlugBlog($blogSlug);
+            $res = $this->blogAdminClass->getSlugBlog($blogSlug);
             if (!$res) {
                 $blogSlug = $blogSlug . $blogId;
             }
         }
 
         if ($blogPath) {
-            $resPath = $this->AdminClass->getPathBlog($blogPath);
+            $resPath = $this->blogAdminClass->getPathBlog($blogPath);
             if ($resPath) {
                 $blogPath = $blogPath . $blogId;
             }
@@ -377,12 +401,11 @@ class AdminController implements AppInjectableInterface
             $blogPath = null;
         }
 
-        $this->adminClass->editBlog(
+        $this->blogAdminClass->editBlog(
             $blogTitle,
             $blogPath,
             $blogSlug,
             $blogData,
-            $blogType,
             $blogFilter,
             $blogPublish,
             $blogId
@@ -421,9 +444,9 @@ class AdminController implements AppInjectableInterface
 
         $blogTitle = $request->getPost("blogTitle") ?: $request->getGet("title");
 
-        $this->adminClass->createBlog($blogTitle);
+        $this->blogAdminClass->createBlog($blogTitle);
 
-        $blogId = $this->adminClass->getIdBlogByTitle($blogTitle);
+        $blogId = $this->blogAdminClass->getIdBlogByTitle($blogTitle);
         $blogId = json_encode($blogId[0]);
         $blogId = substr($blogId, 6, -1);
 
@@ -442,10 +465,10 @@ class AdminController implements AppInjectableInterface
         $request = $this->app->request;
         $id = $request->getGet("id", null);
 
-        $blog = $this->adminClass->getBlogById($id);
+        $blog = $this->blogAdminClass->getBlogById($id);
 
         $data = [
-            "title"         => $title,
+            "title"      => $title,
             "blog"       => $blog
         ];
 
@@ -467,7 +490,7 @@ class AdminController implements AppInjectableInterface
         $request = $this->app->request;
         $id = $request->getPost("id") ?: $request->getGet("id");
 
-        $this->adminClass->deleteBlog($id);
+        $this->blogAdminClass->deleteBlog($id);
 
         return $response->redirect("admin/blog");
     }
