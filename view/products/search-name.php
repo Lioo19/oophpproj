@@ -15,7 +15,7 @@ namespace Anax\View;
         </label>
     </p>
     <p>
-        <input type="submit" name="search" value="Search">
+        <input type="submit" name="search" value="Sök">
     </p>
     <p><a class="productbutton" href="<?= url("products/search-name") ?>">Visa alla</a></p>
     </fieldset>

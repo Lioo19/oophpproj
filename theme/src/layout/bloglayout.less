@@ -10,12 +10,12 @@
 @LinkHovCol: #b5b5b5;
 @colorBodyText: #000000;
 @colorDropDown: #464959;
-@colorForHeaderFooter: #400101;
+@colorForHeaderFooter: #303234;
 @colorForSideHeaders: #464959;
 @secondaryColor: #e6e6e6;
 @backgroundColor: #e6e6e6;
 @colorShadow: #bfbcb9;
-@buttonColor: #400101;
+@buttonColor: #303234;
 @linkColGreen: #204029;
 @maxContentWidth: 960px;
 
@@ -65,16 +65,16 @@ section.blogheader {
     i {
         text-align: center;
     }
+}
 
-    a {
-        background-color: lighten(@buttonColor, 5%);
+a.backbutton {
+        background-color: @linkColGreen;
         font-size: 20px;
         text-decoration: none;
-        text-shadow: 2px 2px lighten(@buttonColor, 25%);
+        text-shadow: 2px 2px lighten(@linkColGreen, 15%);
         padding: 0.6em;
-        margin: 0.1em;
+        margin: 0.2em;
         color: @LinkCol;
-    }
 }
 
 img.blogpost {

@@ -23,11 +23,13 @@ class BlogControllerTest extends TestCase
     protected function setUp(): void
     {
         global $di;
-        global $page;
 
         // Init service container $di to contain $app as a service
         $di = new DIMagic();
         $di->loadServices(ANAX_INSTALL_PATH . "/config/di");
+        // Use a different cache dir for unit test
+        $di->get("cache")->setPath(ANAX_INSTALL_PATH . "/test/cache");
+
         $app = $di;
         $this->app = $app;
         $di->set("app", $app);

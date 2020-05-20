@@ -34,6 +34,7 @@ CREATE TABLE `login`
 
 INSERT INTO `login` (`username`, `password`, `name`, `email`, `admin`) VALUES
     ("admin", "admin", "Admina Admin", "admin@admin.com", "Y"),
+    ("doe", "doe", "Doe Doe", "doe@doe.com", "N"),
     ("test", "test", "Förnamn Efternamn", "test@test.com", "N");
 
 SELECT `username`, `password`, `name`, `email`, `admin` FROM `login`;

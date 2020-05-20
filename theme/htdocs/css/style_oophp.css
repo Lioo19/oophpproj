@@ -695,7 +695,6 @@ body {
   background-color: #ffffff;
 }
 article {
-  border-bottom: 1px solid black;
   margin-bottom: 12px;
 }
 ul {
@@ -735,7 +734,7 @@ ul {
 }
 .inner-wrap-header .row {
   max-width: 100%;
-  background-color: #400101;
+  background-color: #303234;
 }
 .inner-wrap {
   margin-right: auto;
@@ -773,7 +772,7 @@ ul {
 }
 /*Navbar*/
 .inner-wrap-header {
-  background-image: #400101;
+  background-image: #303234;
 }
 .site-logo-text a {
   color: #FFF7F5;
@@ -1028,7 +1027,7 @@ a.rm-button .rm-button-face-1 {
   margin-right: 0.52083333%;
 }
 .inner-wrap-footer {
-  background-color: #400101;
+  background-color: #303234;
   color: #FFF7F5;
 }
 .site-footer {
@@ -1089,6 +1088,9 @@ td {
 li.selected a {
   color: #fea8a8;
 }
+img.aboutimg {
+  width: 50%;
+}
 /**
 * Laout design
 */
@@ -1110,6 +1112,12 @@ li.selected a {
   border: none;
   text-align: center;
 }
+img.firstpagelogo {
+  width: 12%;
+}
+div.frontpage {
+  margin: 5%;
+}
 /**
 * Laout design
 */
@@ -1126,10 +1134,10 @@ li.selected a {
   margin: 1.4em 0.4em 0.4em 0.4em;
 }
 .navheader a {
-  background-color: #4a0101;
+  background-color: #353739;
   font-size: 20px;
   text-decoration: none;
-  text-shadow: 2px 2px #a40303;
+  text-shadow: 2px 2px #616569;
   padding: 0.6em;
   margin: 0.1em;
   color: #FFF7F5;
@@ -1153,7 +1161,7 @@ figure.productcard h5,
 figure.productcard p {
   text-decoration: none;
   text-align: center;
-  color: #400101;
+  color: #303234;
   border-bottom: none;
   margin-bottom: 2%;
   margin-top: 3%;
@@ -1167,16 +1175,38 @@ figure.productcard img {
   font-size: 16px;
 }
 input[type=submit] {
-  background-color: #a40303;
+  background-color: #616569;
   color: #FFF7F5;
   padding: 0.4em;
   font-size: 16px;
 }
 .productbutton a {
-  color: #400101;
+  color: #303234;
 }
 fieldset.productfield {
   margin-top: 1em;
+}
+article.productdetail {
+  margin: 5% 10% 5% 10%;
+}
+.productdetail h1 {
+  text-align: center;
+  font-size: 2.4em;
+}
+.productdetail img {
+  max-width: 80%;
+  margin-left: 15%;
+  margin-bottom: 5%;
+}
+.productdetail div {
+  margin: 0% 10% 0% 10%;
+}
+div.proddata {
+  border: 1px solid black;
+  margin: 2% 30% 0 30%;
+}
+div.proddata p {
+  margin-left: 10%;
 }
 /**
 * Laout design
@@ -1246,13 +1276,13 @@ section.blogheader h1 {
 .blogpost i {
   text-align: center;
 }
-.blogpost a {
-  background-color: #590101;
+a.backbutton {
+  background-color: #204029;
   font-size: 20px;
   text-decoration: none;
-  text-shadow: 2px 2px #be0303;
+  text-shadow: 2px 2px #3a734a;
   padding: 0.6em;
-  margin: 0.1em;
+  margin: 0.2em;
   color: #FFF7F5;
 }
 img.blogpost {
@@ -1326,6 +1356,7 @@ article.adminfront {
 }
 .login input {
   font-size: 1.6em;
+  color: #55585c;
 }
 .login a {
   color: #204029;

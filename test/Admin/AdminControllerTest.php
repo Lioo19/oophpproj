@@ -27,6 +27,9 @@ class AdminControllerTest extends TestCase
         // Init service container $di to contain $app as a service
         $di = new DIMagic();
         $di->loadServices(ANAX_INSTALL_PATH . "/config/di");
+        // Use a different cache dir for unit test
+        $di->get("cache")->setPath(ANAX_INSTALL_PATH . "/test/cache");
+
         $app = $di;
         $this->app = $app;
         $di->set("app", $app);
@@ -124,6 +127,18 @@ class AdminControllerTest extends TestCase
         $this->assertInstanceOf(ResponseUtility::class, $res);
     }
 
+    // /**
+    //  * Call the controller startadmin action.
+    //  * Get
+    //  */
+    // public function testProductCreateActionPost()
+    // {
+    //     $this->app->request->setPost("productName", "edit");
+    //
+    //     $res = $this->controller->productcreateActionPost();
+    //     $this->assertInstanceOf(ResponseUtility::class, $res);
+    // }
+
     /**
      * Call the controller startadmin action.
      * Get
@@ -140,47 +155,23 @@ class AdminControllerTest extends TestCase
      * Call the controller startadmin action.
      * Get
      */
-    public function testProductEditAction()
-    {
-        $this->app->request->setGet("id", 15);
-
-        $res = $this->controller->producteditAction();
-        $this->assertInstanceOf(ResponseUtility::class, $res);
-    }
-
-    /**
-     * Call the controller startadmin action.
-     * Get
-     */
     public function testBlogCreateAction()
     {
         $res = $this->controller->blogcreateAction();
         $this->assertInstanceOf(ResponseUtility::class, $res);
     }
 
-    /**
-     * Call the controller startadmin action.
-     * Get
-     */
-    public function testProductCreateActionPost()
-    {
-        $this->app->request->setPost("productName", "edit");
-
-        $res = $this->controller->productcreateActionPost();
-        $this->assertInstanceOf(ResponseUtility::class, $res);
-    }
-
-    /**
-     * Call the controller startadmin action.
-     * Get
-     */
-    public function testBlogCreateActionPost()
-    {
-        $this->app->request->setPost("blogTitle", "edit");
-
-        $res = $this->controller->blogcreateActionPost();
-        $this->assertInstanceOf(ResponseUtility::class, $res);
-    }
+    // /**
+    //  * Call the controller startadmin action.
+    //  * Get
+    //  */
+    // public function testBlogCreateActionPost()
+    // {
+    //     $this->app->request->setPost("blogTitle", "edit");
+    //
+    //     $res = $this->controller->blogcreateActionPost();
+    //     $this->assertInstanceOf(ResponseUtility::class, $res);
+    // }
 
     /**
      * Call the controller startadmin action.
