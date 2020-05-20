@@ -1,0 +1,102 @@
+/**
+ * Style for frontpage
+ */
+
+/**
+ * Variables
+ */
+
+@LinkCol: #FFF7F5;
+@LinkHovCol: #b5b5b5;
+@colorBodyText: #000000;
+@colorDropDown: #464959;
+@colorForHeaderFooter: #400101;
+@colorForSideHeaders: #464959;
+@secondaryColor: #e6e6e6;
+@backgroundColor: #e6e6e6;
+@colorShadow: #bfbcb9;
+@buttonColor: #400101;
+@linkColGreen: #204029;
+@maxContentWidth: 960px;
+
+/**
+ * General layout
+ */
+
+img.blogstart {
+    max-height: 200px;
+}
+
+section.blogsection {
+    margin: 5%;
+    padding-left: 2%;
+    padding-right: 2%;
+    padding-bottom: 1%;
+    padding-top: 1%;
+    box-shadow: 0 -1px 10px @colorShadow;
+
+    a {
+        color: @linkColGreen;
+    }
+
+    h1 {
+        border-bottom: none;
+        font-size: 3em;
+    }
+}
+
+section.blogheader {
+    margin: 5%;
+    text-align: center;
+
+    h1 {
+        border-bottom: none;
+    }
+}
+
+.blogpost {
+
+    h1 {
+        font-size: 3em;
+        text-align: center;
+        border-bottom: none;
+    }
+
+    i {
+        text-align: center;
+    }
+
+    a {
+        background-color: lighten(@buttonColor, 5%);
+        font-size: 20px;
+        text-decoration: none;
+        text-shadow: 2px 2px lighten(@buttonColor, 25%);
+        padding: 0.6em;
+        margin: 0.1em;
+        color: @LinkCol;
+    }
+}
+
+img.blogpost {
+    max-width: 50%;
+    max-height: 400px;
+    margin: 3%;
+    // border: 2px solid black;
+    box-shadow: 0 0 10px 3px #abb;
+}
+
+p.time {
+    text-align: center;
+}
+
+
+.blogpostimages {
+    margin-left: 10%;
+}
+
+.blogtext {
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 3%;
+    margin-bottom: 3%;
+}

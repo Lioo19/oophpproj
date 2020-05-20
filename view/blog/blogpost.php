@@ -4,16 +4,20 @@
 
 </pre> -->
 
-<article>
+<article class="blogpost">
     <header>
         <p><a href="index">Tillbaka</a></p>
 
         <h1><?= esc($blog->title) ?></h1>
-        <p><i>Published: <time datetime="<?= esc($blog->published) ?>" pubdate><?= esc($blog->published) ?></time></i></p>
+        <p class="time"><i>Published: <time datetime="<?= esc($blog->published) ?>" pubdate><?= esc($blog->published) ?></time></i></p>
     </header>
-    <img class="blogpost" src="../<?= $blog->image ?>">
-    <img class="blogpost" src="../<?= $blog->image2 ?>">
-    <?= $blog->data ?>
+    <div class="blogpostimages">
+        <img class="blogpost" src="../<?= $blog->image ?>">
+        <img class="blogpost" src="../<?= $blog->image2 ?>">
+    </div>
+    <div class="blogtext">
+        <?= $blog->data ?>
+    </div>
 </article>
 <div>
 

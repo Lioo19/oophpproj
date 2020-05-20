@@ -4,7 +4,7 @@ namespace Anax\View;
 
 ?>
 
-<main>
+<main class="login">
     <h1> Logga in </h1>
     <div>
         <?php if ($successNewUser) : ?>
@@ -30,7 +30,7 @@ namespace Anax\View;
             <input type="submit" name="login" value="Logga in">
         </p>
         <p>
-            <a href="<?= url("login/register") ?>">Registrera dig</a>
+            <a href="<?= url("login/register") ?>">Registrera dig</a> <br>
             <a href="<?= url("login/logout") ?>">Logga ut</a>
         </p>
         </fieldset>

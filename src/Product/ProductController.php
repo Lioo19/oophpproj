@@ -55,6 +55,7 @@ class ProductController implements AppInjectableInterface
             "check" => null
         ];
 
+        $page->add("flash", [], "flash");
         $page->add("products/header");
         $page->add("products/index", $data);
 
@@ -83,6 +84,7 @@ class ProductController implements AppInjectableInterface
             "check" => "check"
         ];
 
+        // $page->add("flash", [], "hej");
         $page->add("products/header");
         $page->add("products/show-all", $data);
 

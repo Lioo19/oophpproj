@@ -57,6 +57,7 @@ class BlogController implements AppInjectableInterface
             "res"   => $res
         ];
 
+        $page->add("flash", [], "flash");
         $page->add("blog/index", $data);
 
         return $page->render([

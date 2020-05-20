@@ -60,6 +60,8 @@ class AdminController implements AppInjectableInterface
             "title" => $title,
         ];
 
+        $page->add("flash", [], "flash");
+
         $page->add("admin/header", $data);
         $page->add("admin/index", $data);
 

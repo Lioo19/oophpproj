@@ -59,6 +59,7 @@ class LoginController implements AppInjectableInterface
         ];
 
         // $page->add("login/header", $data);
+        $page->add("flash", [], "flash");
         $page->add("login/index", $data);
 
         return $page->render([
