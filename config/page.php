@@ -13,7 +13,7 @@ return [
         // Change here to use your own templatefile as layout
         "template" => "anax/v2/layout/dbwebb_se",
         "data" => [
-            "baseTitle" => " | oophp",
+            "baseTitle" => " | GME",
             "bodyClass" => null,
             "favicon" => "favicon.ico",
             "htmlClass" => null,
@@ -36,8 +36,8 @@ return [
             "template" => "anax/v2/header/site_logo",
             "data" => [
                 "class" => "large",
-                "siteLogo"      => "image/theme/spng",
-                "siteLogoAlt"   => "Löv",
+                "siteLogo"      => "image/theme/gameicon64x64",
+                "siteLogoAlt"   => "Pussel",
             ],
         ],
         [
@@ -45,9 +45,9 @@ return [
             "template" => "anax/v2/header/site_logo_text",
             "data" => [
                 "homeLink"      => "",
-                "siteLogoText"  => "oophp",
-                "siteLogoTextIcon" => "image/theme/leaf_40x40.png",
-                "siteLogoTextIconAlt" => "Löv-bild",
+                "siteLogoText"  => "GME",
+                "siteLogoTextIcon" => "image/theme/gameicon40x40.png",
+                "siteLogoTextIconAlt" => "Pussel",
             ],
         ],
         [

@@ -20,7 +20,7 @@ if (!$res) {
     <h2> Spel </h2>
     <?php $id = -1; foreach ($res as $row) :
         $id++; ?>
-        <div>
+        <!-- <div class="productc"> -->
             <?php if ($check) : ?>
                 <a href="products/product?id=<?= esc($row->id) ?>">
                     <figure class="productcard">

@@ -70,8 +70,8 @@ if ($login === "admin") {
             ],
             [
                 "text" => "Doc",
-                "url" => "dokumentation",
-                "title" => "Dokumentation av ramverk och liknande.",
+                "url" => "doc",
+                "title" => "Dokumentation",
             ],
             [
                 "text" => "Produkter",
@@ -116,8 +116,8 @@ return [
         ],
         [
             "text" => "Doc",
-            "url" => "dokumentation",
-            "title" => "Dokumentation av ramverk och liknande.",
+            "url" => "doc",
+            "title" => "Dokumentation",
         ],
         [
             "text" => "Produkter",

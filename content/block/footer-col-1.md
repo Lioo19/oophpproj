@@ -1,3 +1,5 @@
-#### Om kursen
+#### Kontakt
 
-Vill du veta mer om kursen och dess innehåll? Det finner du här: [OOPHP på dbwebb](https://dbwebb.se/kurser/oophp-v5) och till [OOPHP på GitHub](https://github.com/dbwebb-se/oophp).
+Vill du få kontakt med oss?  
+Enklast når du oss via vår [mail](game@game.game)  
+eller via vår [facebooksida](www.facebook.com)  

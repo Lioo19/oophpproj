@@ -20,7 +20,7 @@ Om
 =========================
 
 ##### Om webbplatsen
-SpelOnline samlar information och försäljning av dina favoritspel på en coh samma plats. Varje vecka ger vi ut nya recensioner av aktuella spel och erbjuder sedan dig att klicka hem dessa till förmånliga priser.
+GME samlar information, rescensioner och försäljning av dina favoritspel på en och samma plats. Varje vecka ger vi ut nya recensioner av aktuella spel och erbjuder sedan dig att klicka hem dessa till förmånliga priser.
 
 ##### Om projektet OOPHP
 Den här sidan är ett projektarbete av lioo19 för kursen Objektorienterade Webbteknologier på Blekinge Tekniska Högskola, våren 2020.  

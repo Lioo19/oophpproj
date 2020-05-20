@@ -6,11 +6,12 @@ namespace Anax\View;
 
 <form method="get">
     <fieldset class="productfield">
-    <legend>Search</legend>
+    <legend>Sök på spel</legend>
     <input type="hidden" name="route" value="search-name">
     <p>
-        <label>Namn (use % as wildcard):
-            <input type="search" name="searchName" value="<?= esc($searchName) ?>"/>
+        <label>Namn (använd % för att söka på delar av ord, ex S% för spel som börjar på S):
+            <br>
+            <input class="productsearch" type="search" name="searchName" value="<?= esc($searchName) ?>"/>
         </label>
     </p>
     <p>

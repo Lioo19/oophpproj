@@ -1,2 +1,2 @@
-Copyright SpelOnline
+Copyright GME
 2020

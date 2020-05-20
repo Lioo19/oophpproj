@@ -6,14 +6,16 @@
  * Variables
  */
 
-@LinkCol: #f5f5f5;
+@LinkCol: #FFF7F5;
 @LinkHovCol: #b5b5b5;
 @colorBodyText: #000000;
-@colorDropDown: #404040;
-@colorForHeaderFooter: #404040;
-@colorForSideHeaders: #404040;
+@colorDropDown: #464959;
+@colorForHeaderFooter: #400101;
+@colorForSideHeaders: #464959;
 @secondaryColor: #e6e6e6;
+@backgroundColor: #e6e6e6;
 @colorShadow: #bfbcb9;
+@selectedLinkColor: lighten(#400101, 70%);
 @maxContentWidth: 960px;
 
 /**
@@ -23,22 +25,29 @@
 
  .row {
      #desinax-vgrid.row();
-     margin-bottom: 1em;
-    // background-color: #0f0;
+     margin-left: 0;
+     width: 100%;
+     // margin-bottom: 1em;
+    // background-color: @colorForHeaderFooter;
      //margin-bottom: 12px;
  }
 
  .inner-wrap-header .row {
      max-width: 100%;
+     background-color: @colorForHeaderFooter;
  }
 
  .inner-wrap {
      #desinax-vgrid.grid(1100px);
+     background-color: @backgroundColor;
  }
 
  .inner-wrap-header {
      #desinax-vgrid.grid(100%);
-     background-color: #333;
+ }
+
+ .inner-wrap-flash {
+     #desinax-vgrid.grid(100%);
  }
 
  .vgrid .inner-wrap {
@@ -53,25 +62,31 @@
 
  /*Navbar*/
 
- .inner-wrap-header {
-     background-image: @colorForHeaderFooter;
- }
+.inner-wrap-header {
+    background-image: @colorForHeaderFooter;
+}
 
- .site-logo-text a {
-     color: @LinkCol;
- }
+.site-logo-text a {
+    color: @LinkCol;
+}
 
- .region-header-col-1,
- .region-header-col-3 {
-     #desinax-vgrid.column(3);
- }
+.region-header-col-1 {
+    #desinax-vgrid.column(3);
+    margin-top: 0.6%;
+    margin-left: 1%;
+}
 
- .region-header-col-2 {
-     #desinax-vgrid.column(18);
-     color: @LinkCol;
-     margin-bottom: 0.6em;
+.region-header-col-2 {
+    #desinax-vgrid.column(12);
+    #desinax-vgrid.push(8);
+    color: @LinkCol;
+    margin-bottom: 0.6em;
+}
 
- }
+.region-header-col-3 {
+    display: none;
+}
+
 
 .rm-desktop li a {
     padding-left: 0.4em;
@@ -93,7 +108,11 @@ a.rm-button .rm-button-face-1 {
 
  .region-flash {
      #desinax-vgrid.column(@columns);
-     margin-bottom: @magicNumber;
+     width: 100%;
+     margin-left: 0;
+     display: flex;
+
+     margin-bottom: 0;
 
      img {
          max-width: 100%;
@@ -111,8 +130,8 @@ a.rm-button .rm-button-face-1 {
  /* Page Layout*/
 
  .region-main {
-     #desinax-vgrid.column(@columns * 3 / 4);
-     #desinax-vgrid.push(3);
+     #desinax-vgrid.column(@columns);
+     // #desinax-vgrid.push(3);
      margin-bottom: (@magicNumber / 2);
      min-height: 600px;
 
@@ -174,6 +193,10 @@ a.rm-button .rm-button-face-1 {
     .region-sidebar-right {
         #desinax-vgrid.column(@columns);
         #desinax-vgrid.push(0);
+   }
+
+   .region-header-col-3 {
+       #desinax-vgrid.column(3);
    }
 }
 
@@ -294,7 +317,7 @@ a.rm-button .rm-button-face-1 {
  }
 
  img.thumb {
-     max-width: 150px;
+     max-width: 200px;
  }
 
 //Mobile things
@@ -304,37 +327,8 @@ a.rm-button .rm-button-face-1 {
 
 }
 
-// MOVIE THINGS
-.header {
-    // background-color: @LinkHovCol;
-    margin: 0.4em 0.4em 2.4em 0.4em;
-
-    a {
-        padding: 0.6em;
-        background-color: @LinkHovCol;
-        font-size: 22px;
-        text-decoration: none;
-        text-shadow: 2px 2px darken(@LinkCol, 20%);
-        color: @LinkCol;
-        // border: 2px solid darken(@LinkHovCol, 5%);
-    }
-}
-
-fieldset.moviefield {
-    margin-top: 0.6em;
-}
-
-a.moviebutton {
-    padding: 0.4em;
-    background-color: lighten(@LinkHovCol, 2%);
-    font-size: 16px;
-    text-decoration: none;
-    text-shadow: 1px 1px darken(@LinkCol, 20%);
-    color: @LinkCol;
-}
-
 th {
-    font-size: 1.2em;
+    font-size: 1em;
     padding: 0.8em;
     border-bottom: 1px solid @LinkHovCol;
 }
@@ -364,9 +358,23 @@ figure.figure {
                     float: none;
                     img {
                         width: @maxContentWidth * 2 / 3;
+                    }
                 }
             }
         }
     }
 }
+
+img.blogpost {
+    max-width: 50%;
+    max-height: 400px;
+    margin: 2%;
+    // border: 2px solid black;
+    box-shadow: 0 0 10px 3px #abb;
+}
+
+li.selected {
+    a {
+        color: @selectedLinkColor;
+    }
 }

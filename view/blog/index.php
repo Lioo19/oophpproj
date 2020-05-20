@@ -15,7 +15,7 @@ if (!$res) {
     <header>
         <!-- <?php print_r($row->slug) ?> -->
         <?php if ($row->path) : ?>
-            <h1><a href="blog/blogpost?slug=<?= esc($row->slug) ?>"><?= esc($row->title) ?></a></h1>
+            <h1><a href="blogpost?slug=<?= esc($row->slug) ?>"><?= esc($row->title) ?></a></h1>
             <!-- <h1><a href="?route=blog/<?= esc($row->slug) ?>"><?= esc($row->title) ?></a></h1> -->
             <p><i>Published: <time datetime="<?= esc($row->published) ?>" pubdate><?= esc($row->published) ?></time></i></p>
         <?php endif; ?>
