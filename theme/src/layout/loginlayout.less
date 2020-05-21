@@ -16,7 +16,8 @@
 @backgroundColor: #e6e6e6;
 @colorShadow: #bfbcb9;
 @buttonColor: #303234;
-@linkColGreen: #204029;
+@linkColYellow: #F2A30F;
+@linkColPink: #F23545;
 @maxContentWidth: 960px;
 
 /**
@@ -41,11 +42,27 @@
 
     input {
         font-size: 1.6em;
-        color: lighten(@colorForHeaderFooter, 15%);
+        color: lighten(@colorForHeaderFooter, 20%);
+    }
+
+    input[type=submit] {
+        color: @LinkCol;
     }
 
     a {
-        color: @linkColGreen;
+        color: @linkColYellow;
+        font-weight: 600;
         font-size: 1.2em;
+    }
+}
+
+div.logout {
+    margin-left: 20%;
+    margin-top: 5%;
+
+    a {
+        color: @linkColPink;
+        font-weight: 600;
+        font-size: 1.2;
     }
 }

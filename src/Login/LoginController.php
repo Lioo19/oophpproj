@@ -58,13 +58,20 @@ class LoginController implements AppInjectableInterface
             "successNewUser" => $successNewUser
         ];
 
-        // $page->add("login/header", $data);
-        $page->add("flash", [], "flash");
-        $page->add("login/index", $data);
-
-        return $page->render([
-            "title" => $title,
-        ]);
+        if ($login === "admin") {
+            $page->add("flash", [], "flash");
+            $page->add("admin/header", $data);
+            $page->add("admin/index", $data);
+            return $page->render([
+                "title" => $title,
+            ]);
+        } else {
+            $page->add("flash", [], "flash");
+            $page->add("login/index", $data);
+            return $page->render([
+                "title" => $title,
+            ]);
+        }
     }
 
     /**

@@ -7,12 +7,13 @@ namespace Anax\View;
 <!-- <pre>
     <?php print_r($product);?> </pre> -->
 <article class="productdetail">
+    <p><a class="backbutton" href=" <?= url("products") ?> "> < Tillbaka</a></p>
     <header>
         <h1><?= esc($product->name) ?></h1>
         <img class="productview" src="../<?= $product->image ?>">
     </header>
-    <div>
-        <?= $product->description ?>
+    <div class="proddata">
+        <p><?= $product->description ?></p>
     </div>
     <div class="proddata">
         <p><i>Tillverkare: <?= esc($product->brand) ?>, <?= esc($product->year) ?></i></p>
@@ -24,5 +25,4 @@ namespace Anax\View;
         <p><i>Lagersaldo: <?= esc($product->stock) ?></i></p>
         <p><b>Pris: <?= esc($product->price) ?> kr</b></p>
     </div>
-
 </article>

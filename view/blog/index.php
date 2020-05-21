@@ -15,17 +15,18 @@ if (!$res) {
 <?php foreach ($res as $row) : ?>
     <!-- <?php var_dump($row->image); ?> -->
 <section class="blogsection">
-    <header>
         <!-- <?php print_r($row->slug) ?> -->
-        <?php if ($row->path) : ?>
-            <h1><a href="<?= url("blog/blogpost?slug=")?><?= esc($row->slug) ?>"><?= esc($row->title) ?></a></h1>
+        <!-- <?php if ($row->path) : ?> -->
+            <!-- <h1><a href="<?= url("blog/blogpost?slug=")?><?= esc($row->slug) ?>"><?= esc($row->title) ?></a></h1> -->
             <!-- <h1><a href="?route=blog/<?= esc($row->slug) ?>"><?= esc($row->title) ?></a></h1> -->
-            <p><i>Published: <time datetime="<?= esc($row->published) ?>" pubdate><?= esc($row->published) ?></time></i></p>
-        <?php endif; ?>
-    </header>
+        <!-- <?php endif; ?> -->
     <?php if ($row->path) : ?>
         <img class="blogstart" src="./<?= $row->image ?>">
-        <?= substr($row->data, 0, 150) ?>...
+        <div class="blogfronttext">
+            <h1><a href="<?= url("blog/blogpost?slug=")?><?= esc($row->slug) ?>"><?= esc($row->title) ?></a></h1>
+            <?= substr($row->data, 0, 150) ?>...
+            <p><i>Published: <time datetime="<?= esc($row->published) ?>" pubdate><?= esc($row->published) ?></time></i></p>
+        </div>
     <?php endif; ?>
 </section>
 <?php endforeach; ?>

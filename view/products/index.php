@@ -24,16 +24,16 @@ if (!$res) {
             <?php if ($check) : ?>
                 <a href="products/product?id=<?= esc($row->id) ?>">
                     <figure class="productcard">
-                        <h5> <?= esc($row->name) ?> </h5>
                         <img class="thumb" src="../<?= $row->image ?>">
+                        <h5> <?= esc($row->name) ?> </h5>
                         <p> <?= esc($row->price) ?> kr</p>
                     </figure>
                 </a>
             <?php else : ?>
                 <a href="products/product?id=<?= esc($row->id) ?>">
                     <figure class="productcard">
-                        <h5> <?= esc($row->name) ?> </h5>
                         <img class="thumb" src="./<?= $row->image ?>">
+                        <h5> <?= esc($row->name) ?> </h5>
                         <p> <?= esc($row->price) ?> kr</p>
                     </figure>
                 </a>

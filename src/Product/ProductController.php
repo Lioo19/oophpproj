@@ -200,7 +200,7 @@ class ProductController implements AppInjectableInterface
             "product"   => $product
         ];
 
-        $page->add("products/header");
+        // $page->add("products/header");
         $page->add("products/product", $data);
 
         return $page->render([
